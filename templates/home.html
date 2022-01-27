@@ -1,0 +1,26 @@
+{% extends "base.html" %} {% block title %} Home {% endblock title %} {% block
+content %}
+
+<h2 class="d-flex justify-content-center">WOD Builder @Home</h2>
+
+<div class="d-flex justify-content-center">
+  <div class="row">
+    <form>
+      <div class="col text-center p-2">
+        <button class="btn btn-standard" formaction="/login">Log In</button>
+      </div>
+      <div class="col text-center p-2">
+        <button class="btn btn-success" formaction="/register">
+          Create Account
+        </button>
+      </div>
+      <div class="col text-center p-2">
+        <button class="btn btn-info" formaction="/browse">
+          Browse Exercises
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
