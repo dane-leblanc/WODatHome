@@ -1,23 +1,17 @@
-{% extends "base.html" %}
-{% block title %}
-Browse Exercises
-{% endblock title %}
-{% block content %}
+{% extends "base.html" %} {% block title %} Browse Exercises {% endblock title
+%} {% block content %}
 <h1>Browse Exercises</h1>
 <form method="post">
-{{form.hidden_tag()}}
-{% for field in form if field.widget.input_type != 'hidden' %}
-<div class="form-group">
-{{field.label}}
-{{field(class_="form-control")}}
-</div>
-{% endfor %}
-<div class="form-group">
-<button class="btn btn-primary" type="submit">Filter</button>
-</div>
+  {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+  'hidden' %}
+  <div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
+  {% endfor %}
+  <div class="form-group">
+    <button class="btn btn-primary" type="submit">Filter</button>
+  </div>
 </form>
+
 <h2><b>Exercises</b></h2>
 {% for exercise in exercises %}
-<h4>{{exercise.name}}</h4>
-{% endfor %}
-{% endblock content %}
+<h4><a href="/exercise/{{exercise.id}}">{{exercise.name}}</a></h4>
+{% endfor %} {% endblock content %}

@@ -113,8 +113,9 @@ class WorkoutExercise(db.Model):
     __tablename__ = 'workouts_exercises'
     
     workout_id = db.Column(db.Integer, db.ForeignKey('workouts.id'), primary_key=True)
-    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), primary_key=True)
-    order = db.Column(db.Integer, nullable=False)
+    order = db.Column(db.Integer, primary_key=True)
+    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
+    reps = db.Column(db.Integer)
     
 class ExerciseImage(db.Model):
     """Exercise Image from WGER API"""
@@ -123,3 +124,4 @@ class ExerciseImage(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
     image_url = db.Column(db.String, nullable=False)
+    

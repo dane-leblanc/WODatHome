@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+{{e.name}}
+{% endblock title %}
+{% block content %}
+<h1>{{e.name}}</h1>
+<h3>Description</h3>
+{{e.description | safe}}
+<h3>Category</h3>
+<p>{{e.category.name}}</p>
+{% if e.equipment == [] %}
+<p>**No equipment has been listed for this exercise**</p>
+{% else %}
+<h3>Equipment Used</h3>
+<ul>
+{% for equipment in e.equipment %}
+<li>{{equipment.name}}</li>
+{% endfor %}
+</ul>
+{% endif %}
+<img src="{{e_img.image_url}}" alt="{{e.name}} image">
+{% endblock content %}
