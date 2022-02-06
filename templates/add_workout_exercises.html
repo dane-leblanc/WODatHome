@@ -1,9 +1,11 @@
-{% extends "base.html" %} {% block title %} Browse Exercises {% endblock title
-%} {% block content %}
-<h1>Browse Exercises</h1>
-
+{% extends "base.html" %}
+{% block title %}
+{{workout_name}}
+{% endblock title %}
+{% block content %}
+<h1>{{workout_name}}</h1>
 <form method="get">
-  {% for field in form if field.widget.input_type != 'hidden' %}
+  {% for field in browse_form if field.widget.input_type != 'hidden' %}
   <div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
   {% endfor %}
   <div class="form-group">
@@ -16,7 +18,7 @@
 <h4>-- No Exercises Match Your Filters --</h4>
 {% else %} 
 {% for exercise in exercises %}
-<h4><a href="/exercise/{{exercise.id}}">{{exercise.name}}</a></h4>
+<h4><a href="/exercise/{{exercise.id}}">{{exercise.name}}</a> <button class="btn btn-success btn-sm">add</button></h4>
 {% endfor %} 
 {% endif %} 
 {% endblock content %}

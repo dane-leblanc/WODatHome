@@ -20,3 +20,8 @@ class SearchExerciseForm(FlaskForm):
     name = StringField('Filter by name:')
     category = SelectField('Filter by category:', choices=['<none>', 'Abs', 'Arms', 'Back', 'Calves', 'Chest', 'Legs', 'Shoulders'])
     equipment = SelectMultipleField('Available Equipment', choices=[('1', 'Barbell'), ('8', 'Bench'), ('3', 'Dumbell'), ('9', 'Incline bench'), ('10', 'Kettlebell'), ('6', 'Pull-up bar'), ('5', 'Swiss Ball'), ('2', 'SZ-Bar')])
+
+class AddWorkoutForm(FlaskForm):
+    """Form for creating a new workout"""
+    type = SelectField('Type of Workout:', choices=['AMRAP', 'EMOM', 'RFT'])
+    name = StringField('Workout Name:', validators=[DataRequired()])

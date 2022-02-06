@@ -1,7 +1,7 @@
 """Use these functions to fill our database with data from wger API"""
 import requests
 import re
-from models import db, Category, Exercise, Equipment, ExerciseImage, ExerciseEquipment, WorkoutExercise
+from models import db, Category, Exercise, Equipment, ExerciseImage, ExerciseEquipment, WorkoutExercise, User, Workout
 
 from secret import API_SECRET_KEY
 
@@ -109,74 +109,114 @@ def fill_exercises_equipment():
     db.session.commit()
     
     return "Exercises Equipment Table Filled"
-    
+
+def create_sample_user():
+    sample_user = User.register(username='Test1', password='Password1')
+    db.session.add(sample_user)
+    db.session.commit()
+
 def create_sample_workout():
+    sample_user = User.query.filter_by(username='Test1').one()
+    sample_workout = Workout(
+        user_id=sample_user.id,
+        type="AMRAP",
+        name="Sample Bodyweight AMRAP",
+        stages=3,
+        stage_time=5
+    )
+    db.session.add(sample_workout)
+    db.session.commit()
+    
+def build_sample_workout():
     ex1 = WorkoutExercise(
         workout_id=1,
         order=1,
         exercise_id=195,
-        reps=10
+        count=10,
+        count_type="reps"
     )
     ex2 = WorkoutExercise(
         workout_id=1,
         order=2,
         exercise_id=326,
-        reps=10
+        count=10,
+        count_type="reps"
     )
     ex3 = WorkoutExercise(
         workout_id=1,
         order=3,
         exercise_id=874,
-        reps=20
+        count=20,
+        count_type="reps"
     )
     ex4 = WorkoutExercise(
         workout_id=1,
         order=4,
         exercise_id=500,
-        reps=60
+        count=60,
+        count_type="secs"
     )
     ex5 = WorkoutExercise(
         workout_id=1,
         order=5,
         exercise_id=238,
-        reps=10
+        count=10,
+        count_type="reps"
     )
     ex6 = WorkoutExercise(
         workout_id=1,
         order=6,
         exercise_id=338,
-        reps=10
+        count=10,
+        count_type="secs"
     )
     ex7 = WorkoutExercise(
         workout_id=1,
         order=7,
         exercise_id=795,
-        reps=10
+        count=10,
+        count_type="reps"
     )
     ex8 = WorkoutExercise(
         workout_id=1,
         order=8,
         exercise_id=500,
-        reps=60
+        count=60,
+        count_type="secs"
     )
     ex9 = WorkoutExercise(
         workout_id=1,
         order=9,
         exercise_id=879,
-        reps=20
+        count=20,
+        count_type="reps"
     )
     ex10 = WorkoutExercise(
         workout_id=1,
         order=10,
         exercise_id=330,
-        reps=10
+        count=10,
+        count_type="reps"
     )
     ex11 = WorkoutExercise(
         workout_id=1,
         order=11,
         exercise_id=387,
-        reps=1
+        count=30,
+        count_type="secs"
     )
     
     db.session.add_all([ex1, ex2, ex3, ex4, ex5, ex6, ex7, ex8, ex9, ex10, ex11])
     db.session.commit()
+
+def execute_all():
+    db.drop_all()
+    db.create_all()
+    fill_categories()
+    fill_equipment()
+    fill_exercises()
+    fill_images()
+    fill_exercises_equipment()
+    create_sample_user()
+    create_sample_workout()
+    build_sample_workout()

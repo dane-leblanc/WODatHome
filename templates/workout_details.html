@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{workout.name}}
+{% endblock title %}
+
+{% block content %}
+<h1>{{workout.name}}</h1>
+<h2>Time per Stage: {{workout.stage_time}} min.</h2>
+<h2>Rest Between Stages: {{rest_time}} sec.</h2>
+{# <ul>
+{% for exercise in exercises %}
+<li>{{exercise.count}} {{exercise.count_type}} of <a href="/exercise/{{exercise.exercise.id}}">{{exercise.exercise.name}}</a></li>
+{% endfor %}
+</ul> #}
+{% set tick = namespace(value=1) %}
+{% for stage in workout_stages %}
+<h4>Stage #{{tick.value}}</h4>
+{% set tick.value = tick.value + 1 %}
+<ul>
+{% for exercise in stage %}
+<li>{{exercise.count}} {{exercise.count_type}} of <a href="/exercise/{{exercise.exercise.id}}">{{exercise.exercise.name}}</a></li>
+{% endfor %}
+</ul>
+{% endfor %}
+<form>
+<button class="btn btn-success" formaction="/users/{{username}}/workout/{{workout.id}}/execute">Start This Workout!</button>
+<button class="btn btn-danger" formmethod="post" formaction="/users/{{username}}/workout/{{workout.id}}/delete">Delete Workout</button>
+</form>
+{% endblock content %}

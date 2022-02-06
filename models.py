@@ -58,12 +58,18 @@ class Workout(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     type = db.Column(db.String(10), nullable=False)
+    name = db.Column(db.String, nullable=False)
+    stages = db.Column(db.Integer)
+    stage_time = db.Column(db.Integer)
     
     #I'm unsure if I want results to be deleted if the workout is deleted. 
     results = db.relationship('Result', backref='workout', cascade='all, delete')
-    exercises = db.relationship('Exercise', secondary='workouts_exercises', backref='workouts')
+
+    # this relationship is triggering errors, and i'm not sure if I'll use the through relationship at all. 
+    # exercises = db.relationship('Exercise', secondary='workouts_exercises')
+
     #I think I'm going to need to use this if I want to maintain the order of the exercises within the workout. 
-    workout_exercises = db.relationship('WorkoutExercise', viewonly=True)
+    workout_exercises = db.relationship('WorkoutExercise', backref = 'workout', cascade='all, delete')
     
 class Result(db.Model):
     """Workout results"""
@@ -93,6 +99,8 @@ class Exercise(db.Model):
     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=False)
     
     equipment = db.relationship('Equipment', secondary='exercises_equipment', backref='exercises')
+
+    exercise_workouts = db.relationship('WorkoutExercise', backref='exercise')
     
 class Equipment(db.Model):
     """Equipment Data from WGER API"""
@@ -109,13 +117,14 @@ class ExerciseEquipment(db.Model):
     equipment_id = db.Column(db.Integer, db.ForeignKey('equipment.id'), primary_key=True)
     
 class WorkoutExercise(db.Model):
-    """Mapping of Workout to Exercise"""
+    """Details of exercises stored with a workout"""
     __tablename__ = 'workouts_exercises'
     
     workout_id = db.Column(db.Integer, db.ForeignKey('workouts.id'), primary_key=True)
     order = db.Column(db.Integer, primary_key=True)
     exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'), nullable=False)
-    reps = db.Column(db.Integer)
+    count = db.Column(db.Integer)
+    count_type = db.Column(db.String(10))
     
 class ExerciseImage(db.Model):
     """Exercise Image from WGER API"""

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+Create Workout
+{% endblock title %}
+{% block content %}
+<h1>Create New Workout</h1>
+<form action="" method="post">
+{{form.hidden_tag()}} {% for field in form if field.widget.input_type != 'hidden'%}
+<div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
+{% endfor %}
+<div class="form-group">
+<button class="btn btn-primary" type="submit">Select Exercises</button>
+</div>
+</form>
+{% endblock content %}
