@@ -189,3 +189,10 @@ def add_workout_exercises(username, workout_name):
 def logout():
     session.pop('username')
     return redirect('/')
+
+
+"""RESTFUL API for AJAX requests"""
+@app.route('/api/exercises/<int:id>')
+def get_exercise(id):
+    exercise = Exercise.query.get_or_404(id)
+    return jsonify(exercise=exercise.serialize())

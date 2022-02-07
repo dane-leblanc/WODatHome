@@ -101,6 +101,13 @@ class Exercise(db.Model):
     equipment = db.relationship('Equipment', secondary='exercises_equipment', backref='exercises')
 
     exercise_workouts = db.relationship('WorkoutExercise', backref='exercise')
+
+    def serialize(self):
+        """Return a dict representation of exercise info that we can turn into JSON"""
+        return {
+            'id': self.id,
+            'name': self.name,
+        }
     
 class Equipment(db.Model):
     """Equipment Data from WGER API"""
