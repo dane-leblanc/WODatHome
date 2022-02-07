@@ -10,9 +10,9 @@ This app will make use of the [wger REST API](https://wger.de/en/software/api) f
 
 Wireframes (created by drawIO) can be found [here](https://drive.google.com/file/d/1yAY6GoaadWmxEO3Tsi-nS69-XsKmUaJ0/view?usp=sharing).
 
-**Running the App (python3 and PostgreSQL required)**
-
 ---
+
+**Running the App (python3 and PostgreSQL required)**
 
 <u>Setting up your Secret file</u>
 
