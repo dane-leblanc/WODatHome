@@ -166,20 +166,23 @@ def create_workout(username):
 
 @app.route('/users/<username>/workout/create/<workout_name>', methods=["GET", "POST"])
 def add_workout_exercises(username, workout_name):
-    browse_form = SearchExerciseForm(request.args)
+    if 'username' not in session or username != session['username']:
+        return redirect('/')
+    else:
+        browse_form = SearchExerciseForm(request.args)
 
-    name_input = request.args.get("name")
-    category_input = request.args.get("category")
-    equipment_id_input = request.args.getlist("equipment")
+        name_input = request.args.get("name")
+        category_input = request.args.get("category")
+        equipment_id_input = request.args.getlist("equipment")
     
-    if category_input:
-        equip_list = queries.get_equip_list(equipment_id_input)
+        if category_input:
+            equip_list = queries.get_equip_list(equipment_id_input)
         
-        exercises = queries.get_exercises(equip_list, name_input, category_input)
+            exercises = queries.get_exercises(equip_list, name_input, category_input)
         
-        return render_template('add_workout_exercises.html', browse_form=browse_form, exercises=exercises, equip_list=equip_list, username=username, workout_name=workout_name)
+            return render_template('add_workout_exercises.html', browse_form=browse_form, exercises=exercises, equip_list=equip_list, username=username, workout_name=workout_name)
 
-    return render_template('add_workout_exercises.html', username=username, workout_name=workout_name, browse_form=browse_form)
+        return render_template('add_workout_exercises.html', username=username, workout_name=workout_name, browse_form=browse_form)
         
     
 @app.route('/logout')

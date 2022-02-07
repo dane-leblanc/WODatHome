@@ -3,7 +3,7 @@ import requests
 import re
 from models import db, Category, Exercise, Equipment, ExerciseImage, ExerciseEquipment, WorkoutExercise, User, Workout
 
-from secret import API_SECRET_KEY
+from secret import API_SECRET_KEY, sample_password
 
 API_BASE_URL = 'https://wger.de/api/v2/'
 
@@ -111,7 +111,7 @@ def fill_exercises_equipment():
     return "Exercises Equipment Table Filled"
 
 def create_sample_user():
-    sample_user = User.register(username='Test1', password='Password1')
+    sample_user = User.register(username='Test1', password=sample_password)
     db.session.add(sample_user)
     db.session.commit()
 
