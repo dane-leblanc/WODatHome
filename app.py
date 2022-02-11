@@ -159,13 +159,14 @@ def create_workout(username):
                 name=name
             )
             db.session.add(new_workout)
-            return redirect(f'/users/{username}/workout/create/{new_workout.name}')
+
+            return redirect(f'/users/{username}/workout/create/{new_workout.type}/{new_workout.name}')
 
         return render_template("create_workout.html", form=form, user=user)
 
 
-@app.route('/users/<username>/workout/create/<workout_name>', methods=["GET", "POST"])
-def add_workout_exercises(username, workout_name):
+@app.route('/users/<username>/workout/create/<workout_type>/<workout_name>', methods=["GET", "POST"])
+def add_workout_exercises(username, workout_type, workout_name):
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
@@ -179,10 +180,12 @@ def add_workout_exercises(username, workout_name):
             equip_list = queries.get_equip_list(equipment_id_input)
         
             exercises = queries.get_exercises(equip_list, name_input, category_input)
-        
-            return render_template('add_workout_exercises.html', browse_form=browse_form, exercises=exercises, equip_list=equip_list, username=username, workout_name=workout_name)
 
-        return render_template('add_workout_exercises.html', username=username, workout_name=workout_name, browse_form=browse_form)
+            if (workout_type == 'AMRAP'):
+                return render_template('add_amrap_exercises.html', browse_form=browse_form, exercises=exercises, equip_list=equip_list, username=username, workout_name=workout_name)
+
+        if (workout_type == 'AMRAP'):
+            return render_template('add_amrap_exercises.html', username=username, workout_name=workout_name, browse_form=browse_form)
         
     
 @app.route('/logout')

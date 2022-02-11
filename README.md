@@ -1,6 +1,6 @@
 # WODatHome
 
-My first full-stack capstone project for the Springboard Career Track.
+My first full-stack capstone project for the Springboard Software Engineering Career Track.
 
 **Status:** In development. Not ready to deploy.
 
@@ -14,24 +14,24 @@ Wireframes (created by drawIO) can be found [here](https://drive.google.com/file
 
 **Running the App (python3 and PostgreSQL required)**
 
-<u>Setting up your Secret file</u>
+Setting up your Secret file
 
-<ol>
-<li>You will need need an API key to fill the database. Visit the [wger REST API](https://wger.de/en/software/api) website and create an account. When you are signed in you can generate an API KEY.</li>
-<li>Create a file named <i>secret.py</i> on the same level as *app.py*. </li>
-<li>In *secret.py* define a variable called **API\_SECRET\_KEY** and set it equal to your API KEY as a string.</li>
-<li>In *secret.py*, also define a variable called **sample\_password** and set it equal to a string of your choosing. This will be the password for the sample user (with username - Test1). 
-</ol>
 
-<u>Next, type the following into the Terminal</u>
+1. You will need need an API key to fill the database. Visit the [wger REST API](https://wger.de/en/software/api) website and create an account. When you are signed in you can generate an API KEY.
+2. Create a file named <i>secret.py</i> on the same level as *app.py*. 
+3. In *secret.py* define a variable called **API\_SECRET\_KEY** and set it equal to your API KEY as a string.
+4. In *secret.py*, also define a variable called **sample\_password** and set it equal to a string of your choosing. This will be the password for the sample user (with username - Test1). 
 
-<ol>
-<li>`python3 -m venv venv`</li>
-<li>`source venv/bin/activate`</li>
-<li>`pip install -r requirements.txt`</li>
-<li>`createdb WODatHome_db`</li>
-<li>`ipython`</li>
-<li>`%run app.py`</li>
-<li>`fetch.execute_all()`</li>
-</ol>
+Next, type the following into the Terminal
+
+
+1. `python3 -m venv venv`
+2. `source venv/bin/activate`
+3. `pip install -r requirements.txt`
+4. `createdb WODatHome_db`
+5. `ipython`
+6. `%run app.py`
+7. `fetch.execute_all()`
+
+
 The last step may take up to five minutes to run. Once complete, the database will be filled and a sample user will already be registered. This user has a username of 'Test1' and a password set to whatever you picked in Step 4 of "Setting up your Secret file". This user will already have one stored workout.
