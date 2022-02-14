@@ -165,8 +165,8 @@ def create_workout(username):
         return render_template("create_workout.html", form=form, user=user)
 
 
-@app.route('/users/<username>/workout/create/<workout_type>/<workout_name>', methods=["GET", "POST"])
-def add_workout_exercises(username, workout_type, workout_name):
+@app.route('/users/<username>/workout/create/<workout_type>/<workout_name>', methods=["GET"])
+def set_workout_details(username, workout_type, workout_name):
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
@@ -199,3 +199,45 @@ def logout():
 def get_exercise(id):
     exercise = Exercise.query.get_or_404(id)
     return jsonify(exercise=exercise.serialize())
+
+@app.route('/api/workouts', methods=["POST"])
+def add_workout():
+    username = request.json["username"]
+    type = request.json["type"]
+    name = request.json["name"]
+    stages = int(request.json["stages"])
+    stage_time = int(request.json["stage_time"])
+    
+    user = User.query.filter_by(username=username).one()
+    user_id = user.id
+    new_workout = Workout(
+        user_id=user_id,
+        type=type,
+        name=name,
+        stages=stages,
+        stage_time=stage_time
+    )
+    db.session.add(new_workout)
+    db.session.commit()
+    return ("Workout Created", 201)
+
+@app.route('/api/workout-exercises', methods=["POST"])
+def add_workout_exercises():
+    workout_name = request.json["name"]
+    order = request.json["order"]
+    exercise_id = request.json["exercise_id"]
+    count = request.json["count"]
+    count_type = request.json["count_type"]
+
+    workout = Workout.query.filter_by(name=workout_name).order_by(Workout.id.desc()).first()
+
+    new_workout_exercise = WorkoutExercise(
+        workout_id=workout.id,
+        order=order,
+        exercise_id=exercise_id,
+        count=count,
+        count_type=count_type
+    )
+    db.session.add(new_workout_exercise)
+    db.session.commit()
+    return ("Workout Exercise Added", 201)
