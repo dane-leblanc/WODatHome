@@ -1,5 +1,8 @@
-{% extends "base.html" %} {% block title %} {{workout_name}} {% endblock title
-%} {% block content %}
+{% extends "base.html" %}
+{% block title %} 
+  {{workout_name}} 
+{% endblock title %} 
+{% block content %}
 <h1 id="workout-name" data-user="{{username}}">{{workout_name}}</h1>
 <div class="container-workout">
   <div class="row">
@@ -47,5 +50,5 @@
 </div>
 <script src="https://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
-<script src="/static/addWorkoutExercises.js"></script>
+{% block scripts %} {% endblock scripts %} 
 {% endblock content %}

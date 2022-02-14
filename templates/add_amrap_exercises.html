@@ -1,5 +1,5 @@
-{% extends "add_workout_exercises_base.html" %} {% block workout_form %}
-
+{% extends "add_workout_exercises_base.html" %} 
+{% block workout_form %}
 <form action="" id="amrap-form">
   <div class="form-group">
     <label for="stage-time">Time of Each Stage (in Minutes):</label>
@@ -47,7 +47,11 @@
     />
   </div>
 </form>
-{% endblock workout_form %} {% block exercise_list %}
+{% endblock workout_form %} 
+{% block exercise_list %}
 <ul id="selected-exercises"></ul>
 <button class="btn btn-primary" id="save-amrap">Save AMRAP</button>
-{% endblock exercise_list %}
+{% endblock exercise_list %} 
+{% block scripts %}
+<script src="/static/addAMRAPExercises.js"></script>
+{% endblock scripts %}

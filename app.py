@@ -146,7 +146,6 @@ def create_workout(username):
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
-        db.session.rollback()
         user = User.query.filter_by(username=username).one()
         form = AddWorkoutForm()
         if form.validate_on_submit():
@@ -158,7 +157,6 @@ def create_workout(username):
                 type=type,
                 name=name
             )
-            db.session.add(new_workout)
 
             return redirect(f'/users/{username}/workout/create/{new_workout.type}/{new_workout.name}')
 
