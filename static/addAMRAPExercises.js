@@ -34,6 +34,10 @@ $("#stages").change(function () {
   $selectedList.empty();
   $stagesVal = +$("#stages").val();
   localStorage.setItem("stages", JSON.stringify($stagesVal));
+  if (excList.length > $stagesVal * $excPerStageVal) {
+    excList = excList.slice($stagesVal * $excPerStageVal, excList.length);
+  }
+  localStorage.setItem("excList", JSON.stringify(excList));
   setStages();
   fillStages();
 });
@@ -42,6 +46,10 @@ $("#exc-per-stage").change(function () {
   $selectedList.empty();
   $excPerStageVal = +$("#exc-per-stage").val();
   localStorage.setItem("excPerStage", JSON.stringify($excPerStageVal));
+  if (excList.length > $stagesVal * $excPerStageVal) {
+    excList = excList.slice($stagesVal * $excPerStageVal, excList.length);
+  }
+  localStorage.setItem("excList", JSON.stringify(excList));
   setStages();
   fillStages();
 });
@@ -49,6 +57,9 @@ $("#exc-per-stage").change(function () {
 //Add exercise to exercise list
 $container.on("click", ".btn-success", function (e) {
   e.preventDefault();
+  if ($stagesVal * $excPerStageVal == excList.length) {
+    return alert("You cannot add another exercise.");
+  }
   let exerciseId = +$(e.target).attr("data-id");
   let exerciseName = $(e.target).attr("data-name");
   let newExc = {
@@ -94,7 +105,7 @@ $saveBtn.on("click", async function () {
       } more exercise(s).`
     );
   } else {
-    // create workout
+    //Store workout in db
     let type = "AMRAP";
     let name = $("#workout-name").text();
     let username = $("#workout-name").attr("data-user");
@@ -113,6 +124,7 @@ $saveBtn.on("click", async function () {
       },
     });
 
+    //Store workout exercises in db
     excList = addRests(excList);
 
     for (let i = 0; i < excList.length; i++) {
@@ -136,6 +148,8 @@ $saveBtn.on("click", async function () {
         },
       });
     }
+    localStorage.clear();
+    window.location.href = `${BASE_URL}/`;
   }
 });
 
@@ -157,16 +171,16 @@ function fillStages() {
 
 function addExercise(exc, index) {
   let $newLi = $(
-    `<li class = "li-exercise" data-id = ${exc.id}> ${exc.name}</li>`
+    `<li class = "li-exercise form-inline" data-id = ${exc.id}> ${exc.name}</li>`
   );
   let currStage = Math.floor(index / $excPerStageVal) + 1;
   $newLi.appendTo(`.stage-${currStage}`);
   let $count = $(
-    `<input type="number" class="exc-list-count" data-exc="${exc.id}" value="10"/>`
+    `<input type="number" class="exc-list-count form-control-sm m-1" data-exc="${exc.id}" value="10"/>`
   );
   $count.appendTo($newLi);
   let $countType = $(
-    `<select class="exc-list-select" data-exc="${exc.id}">
+    `<select class="exc-list-select form-control-sm" data-exc="${exc.id}">
       <option value="reps">reps</option>
       <option value="seconds">seconds</option>
     </select>`

@@ -1,13 +1,12 @@
 from flask import Flask, render_template, redirect, jsonify, session, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Workout, Result, Category, Exercise, Equipment, ExerciseEquipment, WorkoutExercise, ExerciseImage
+from models import connect_db, db, User, Workout, Exercise, WorkoutExercise
 from forms import UserAddForm, LoginForm, SearchExerciseForm, AddWorkoutForm
 import os
 import re
 import fetch
 import queries
 
-from secret import API_SECRET_KEY
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = (
@@ -21,6 +20,7 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
+
 @app.route('/')
 def root():
     if "username" not in session:
@@ -28,7 +28,7 @@ def root():
     else:
         username = session['username']
         return redirect(f'/users/{username}')
-    
+
 
 @app.route('/home')
 def home_page():
@@ -46,12 +46,12 @@ def register_user():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        
+
         new_user = User.register(username, password)
         db.session.commit()
         session['username'] = new_user.username
         return redirect(f'/users/{new_user.username}')
-    
+
     return render_template("register.html", form=form)
 
 
@@ -63,13 +63,14 @@ def login():
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
-        
+
         user = User.authenticate(username, password)
         if user:
             session['username'] = username
             return redirect(f'/users/{username}')
         else:
-            form.username.errors = ['Username/Password not found. Please try again.']
+            form.username.errors = [
+                'Username/Password not found. Please try again.']
             return render_template('login.html', form=form)
     return render_template('login.html', form=form)
 
@@ -81,22 +82,29 @@ def browse():
     name_input = request.args.get("name")
     category_input = request.args.get("category")
     equipment_id_input = request.args.getlist("equipment")
-    
+
     if category_input:
         equip_list = queries.get_equip_list(equipment_id_input)
-        
-        exercises = queries.get_exercises(equip_list, name_input, category_input)
-        
-        return render_template('browse.html', form=form, exercises=exercises, equip_list=equip_list)
 
-    return render_template('browse.html', form=form)    
+        exercises = queries.get_exercises(
+            equip_list,
+            name_input,
+            category_input)
+
+        return render_template(
+            'browse.html',
+            form=form,
+            exercises=exercises,
+            equip_list=equip_list)
+
+    return render_template('browse.html', form=form)
 
 
 @app.route('/exercise/<int:id>')
 def exercise_details(id):
     e = Exercise.query.get(id)
     e_img = queries.get_exercise_image(id)
-    
+
     return render_template('exercise_details.html', e=e, e_img=e_img)
 
 
@@ -112,21 +120,31 @@ def user_home(username):
 
 @app.route('/users/<username>/workout/<int:id>')
 def workout_info(username, id):
-    """Show the exercises within this workout and give options to delete and execute workout"""
+    """Show the exercises within this workout and give
+    options to delete and execute workout"""
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
         workout = Workout.query.get(id)
-        exercises = WorkoutExercise.query.filter_by(workout_id=workout.id).all()
+        exercises = WorkoutExercise.query.filter_by(
+            workout_id=workout.id
+            ).all()
         if workout.type == 'AMRAP':
-            exercises_per_stage = int((len(exercises) - workout.stages + 1) / workout.stages)
+            exercises_per_stage = int(
+                (len(exercises) - workout.stages + 1) / workout.stages)
             workout_stages = []
             tick = 0
             while tick < len(exercises):
                 workout_stages.append(exercises[tick:tick+exercises_per_stage])
                 tick = tick + exercises_per_stage + 1
             rest_time = exercises[exercises_per_stage].count
-            return render_template('workout_details.html', workout=workout, exercises=exercises, username=username, workout_stages=workout_stages, rest_time=rest_time)
+            return render_template(
+                'workout_details.html',
+                workout=workout,
+                exercises=exercises,
+                username=username,
+                workout_stages=workout_stages,
+                rest_time=rest_time)
 
 
 @app.route('/users/<username>/workout/<int:id>/delete', methods=["POST"])
@@ -142,7 +160,8 @@ def delete_workout(username, id):
 
 @app.route('/users/<username>/workout/create', methods=["GET", "POST"])
 def create_workout(username):
-    """Create an empty workout (no exercises). Don't commit to db until exercises are associated with the workout."""
+    """Create an empty workout (no exercises).
+    Don't commit to db until exercises are associated with the workout."""
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
@@ -152,18 +171,15 @@ def create_workout(username):
             type = form.type.data
             name = form.name.data
 
-            new_workout = Workout(
-                user_id=user.id,
-                type=type,
-                name=name
-            )
-
-            return redirect(f'/users/{username}/workout/create/{new_workout.type}/{new_workout.name}')
+            return redirect(
+                f'/users/{username}/workout/create/{type}/{name}')
 
         return render_template("create_workout.html", form=form, user=user)
 
 
-@app.route('/users/<username>/workout/create/<workout_type>/<workout_name>', methods=["GET"])
+@app.route(
+    '/users/<username>/workout/create/<workout_type>/<workout_name>',
+    methods=["GET"])
 def set_workout_details(username, workout_type, workout_name):
     if 'username' not in session or username != session['username']:
         return redirect('/')
@@ -173,19 +189,32 @@ def set_workout_details(username, workout_type, workout_name):
         name_input = request.args.get("name")
         category_input = request.args.get("category")
         equipment_id_input = request.args.getlist("equipment")
-    
+
         if category_input:
             equip_list = queries.get_equip_list(equipment_id_input)
-        
-            exercises = queries.get_exercises(equip_list, name_input, category_input)
+
+            exercises = queries.get_exercises(
+                equip_list,
+                name_input,
+                category_input)
 
             if (workout_type == 'AMRAP'):
-                return render_template('add_amrap_exercises.html', browse_form=browse_form, exercises=exercises, equip_list=equip_list, username=username, workout_name=workout_name)
+                return render_template(
+                    'add_amrap_exercises.html',
+                    browse_form=browse_form,
+                    exercises=exercises,
+                    equip_list=equip_list,
+                    username=username,
+                    workout_name=workout_name)
 
         if (workout_type == 'AMRAP'):
-            return render_template('add_amrap_exercises.html', username=username, workout_name=workout_name, browse_form=browse_form)
-        
-    
+            return render_template(
+                'add_amrap_exercises.html',
+                username=username,
+                workout_name=workout_name,
+                browse_form=browse_form)
+
+
 @app.route('/logout')
 def logout():
     session.pop('username')
@@ -193,10 +222,13 @@ def logout():
 
 
 """RESTFUL API for AJAX requests"""
+
+
 @app.route('/api/exercises/<int:id>')
 def get_exercise(id):
     exercise = Exercise.query.get_or_404(id)
     return jsonify(exercise=exercise.serialize())
+
 
 @app.route('/api/workouts', methods=["POST"])
 def add_workout():
@@ -205,7 +237,7 @@ def add_workout():
     name = request.json["name"]
     stages = int(request.json["stages"])
     stage_time = int(request.json["stage_time"])
-    
+
     user = User.query.filter_by(username=username).one()
     user_id = user.id
     new_workout = Workout(
@@ -213,11 +245,11 @@ def add_workout():
         type=type,
         name=name,
         stages=stages,
-        stage_time=stage_time
-    )
+        stage_time=stage_time)
     db.session.add(new_workout)
     db.session.commit()
     return ("Workout Created", 201)
+
 
 @app.route('/api/workout-exercises', methods=["POST"])
 def add_workout_exercises():
@@ -227,7 +259,11 @@ def add_workout_exercises():
     count = request.json["count"]
     count_type = request.json["count_type"]
 
-    workout = Workout.query.filter_by(name=workout_name).order_by(Workout.id.desc()).first()
+    workout = Workout.query.filter_by(
+        name=workout_name
+        ).order_by(
+            Workout.id.desc()
+            ).first()
 
     new_workout_exercise = WorkoutExercise(
         workout_id=workout.id,
