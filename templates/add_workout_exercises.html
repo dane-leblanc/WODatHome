@@ -1,9 +1,15 @@
-{% extends "base.html" %} {% block title %} {{workout_name}} {% endblock title
-%} {% block content %}
-<h1>{{workout_name}}</h1>
+{% extends "base.html" %}
+{% block title %} 
+  {{workout_name}} 
+{% endblock title %} 
+{% block content %}
+<h1 id="workout-name" data-user="{{username}}">{{workout_name}}</h1>
 <div class="container-workout">
   <div class="row">
     <div class="col">
+      {% block workout_form %} {% endblock workout_form %}
+      <hr />
+      <h2><b>Exercises</b></h2>
       <form method="get">
         {% for field in browse_form if field.widget.input_type != 'hidden' %}
         <div class="form-group">
@@ -14,25 +20,35 @@
           <button class="btn btn-primary" type="submit">Filter</button>
         </div>
       </form>
-      <h2><b>Exercises</b></h2>
       {% if exercises == [] %}
       <h4>-- No Exercises Match Your Filters --</h4>
       {% else %} {% for exercise in exercises %}
       <h4>
         <a href="/exercise/{{exercise.id}}">{{exercise.name}}</a>
-        <button class="btn btn-success btn-sm" data-id="{{exercise.id}}">
+        <button
+          class="btn btn-success btn-sm"
+          data-id="{{exercise.id}}"
+          data-name="{{exercise.name}}"
+        >
           add
         </button>
       </h4>
       {% endfor %} {% endif %}
     </div>
     <div class="col">
-      <h2>Exercise List</h2>
-      <ul id="selected-exercises"></ul>
+      <div class="sticky-top">
+        <h2>
+          Exercise List<button class="btn btn-danger ml-2" id="clear-button">
+            Clear All
+          </button>
+        </h2>
+        <p>** Double Click Exercise to Remove **</p>
+        {% block exercise_list %} {% endblock exercise_list %}
+      </div>
     </div>
   </div>
 </div>
 <script src="https://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
-<script src="/static/addWorkoutExercises.js"></script>
+{% block scripts %} {% endblock scripts %} 
 {% endblock content %}

@@ -35,7 +35,7 @@ $("#stages").change(function () {
   $stagesVal = +$("#stages").val();
   localStorage.setItem("stages", JSON.stringify($stagesVal));
   if (excList.length > $stagesVal * $excPerStageVal) {
-    excList = excList.slice($stagesVal * $excPerStageVal, excList.length);
+    excList = excList.slice(0, $stagesVal * $excPerStageVal);
   }
   localStorage.setItem("excList", JSON.stringify(excList));
   setStages();
@@ -47,7 +47,7 @@ $("#exc-per-stage").change(function () {
   $excPerStageVal = +$("#exc-per-stage").val();
   localStorage.setItem("excPerStage", JSON.stringify($excPerStageVal));
   if (excList.length > $stagesVal * $excPerStageVal) {
-    excList = excList.slice($stagesVal * $excPerStageVal, excList.length);
+    excList = excList.slice(0, $stagesVal * $excPerStageVal);
   }
   localStorage.setItem("excList", JSON.stringify(excList));
   setStages();
@@ -56,7 +56,6 @@ $("#exc-per-stage").change(function () {
 
 //Add exercise to exercise list
 $container.on("click", ".btn-success", function (e) {
-  e.preventDefault();
   if ($stagesVal * $excPerStageVal == excList.length) {
     return alert("You cannot add another exercise.");
   }
@@ -93,7 +92,6 @@ $clearBtn.on("click", function () {
   location.reload();
 });
 $("nav").on("click", "a", function () {
-  console.log("clicked");
   localStorage.clear();
 });
 
@@ -136,7 +134,7 @@ $saveBtn.on("click", async function () {
         count = $("#rest-time").val();
         count_type = "seconds";
       }
-      const WorkoutExcRest = await axios({
+      const WorkoutExcRes = await axios({
         url: `${BASE_URL}/api/workout-exercises`,
         method: "POST",
         data: {

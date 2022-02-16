@@ -1,9 +1,9 @@
 from flask import Flask, render_template, redirect, jsonify, session, request
+from flask_wtf.csrf import CSRFProtect
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Workout, Exercise, WorkoutExercise
 from forms import UserAddForm, LoginForm, SearchExerciseForm, AddWorkoutForm
 import os
-import re
 import fetch
 import queries
 
@@ -17,6 +17,8 @@ app.config['SECRET_KEY'] = "SECRET WORKOUT!!!"
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 debug = DebugToolbarExtension(app)
+
+csrf = CSRFProtect(app)
 
 connect_db(app)
 
@@ -145,6 +147,12 @@ def workout_info(username, id):
                 username=username,
                 workout_stages=workout_stages,
                 rest_time=rest_time)
+        if workout.type == 'EMOM':
+            return render_template(
+                'workout_details.html',
+                username=username,
+                workout=workout,
+                exercises=exercises,)
 
 
 @app.route('/users/<username>/workout/<int:id>/delete', methods=["POST"])
@@ -207,12 +215,30 @@ def set_workout_details(username, workout_type, workout_name):
                     username=username,
                     workout_name=workout_name)
 
+            if (workout_type == 'EMOM'):
+                return render_template(
+                    'add_emom_exercises.html',
+                    browse_form=browse_form,
+                    exercises=exercises,
+                    equip_list=equip_list,
+                    username=username,
+                    workout_name=workout_name
+                )
+
         if (workout_type == 'AMRAP'):
             return render_template(
                 'add_amrap_exercises.html',
                 username=username,
                 workout_name=workout_name,
                 browse_form=browse_form)
+
+        if (workout_type == 'EMOM'):
+            return render_template(
+                'add_emom_exercises.html',
+                username=username,
+                workout_name=workout_name,
+                browse_form=browse_form
+            )
 
 
 @app.route('/logout')
@@ -221,7 +247,7 @@ def logout():
     return redirect('/')
 
 
-"""RESTFUL API for AJAX requests"""
+"""For AJAX requests"""
 
 
 @app.route('/api/exercises/<int:id>')
@@ -270,8 +296,8 @@ def add_workout_exercises():
         order=order,
         exercise_id=exercise_id,
         count=count,
-        count_type=count_type
-    )
+        count_type=count_type)
+
     db.session.add(new_workout_exercise)
     db.session.commit()
     return ("Workout Exercise Added", 201)

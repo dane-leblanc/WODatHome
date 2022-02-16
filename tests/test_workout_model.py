@@ -9,9 +9,9 @@ from unittest import TestCase
 
 from models import db, Workout, User
 
-from app import app
-
 os.environ['DATABASE_URL'] = "postgresql:///WODatHome_test_db"
+
+from app import app
 
 db.create_all()
 

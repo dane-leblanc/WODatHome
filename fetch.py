@@ -175,7 +175,7 @@ def build_sample_workout():
         order=4,
         exercise_id=500,
         count=60,
-        count_type="secs")
+        count_type="seconds")
     ex5 = WorkoutExercise(
         workout_id=1,
         order=5,
@@ -187,7 +187,7 @@ def build_sample_workout():
         order=6,
         exercise_id=338,
         count=10,
-        count_type="secs")
+        count_type="seconds")
     ex7 = WorkoutExercise(
         workout_id=1,
         order=7,
@@ -199,7 +199,7 @@ def build_sample_workout():
         order=8,
         exercise_id=500,
         count=60,
-        count_type="secs")
+        count_type="seconds")
     ex9 = WorkoutExercise(
         workout_id=1,
         order=9,
@@ -217,7 +217,7 @@ def build_sample_workout():
         order=11,
         exercise_id=387,
         count=30,
-        count_type="secs")
+        count_type="seconds")
 
     db.session.add_all([
         ex1,

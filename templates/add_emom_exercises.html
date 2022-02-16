@@ -1,0 +1,21 @@
+{% extends "add_workout_exercises_base.html" %} {% block workout_form %}
+<form action="" id="emom-form">
+  <div class="form-group">
+    <label for="time">Workout Length (in minutes):</label>
+    <input
+      type="number"
+      min="1"
+      max="100"
+      value="20"
+      id="time"
+      class="form-control"
+    />
+  </div>
+</form>
+
+{% endblock workout_form %} {% block exercise_list %}
+<ol id="selected-exercises" class="list-group list-group-numbered"></ol>
+<button class="btn btn-primary" id="save-emom">Save EMOM</button>
+{% endblock exercise_list %} {% block scripts %}
+<script src="/static/addEMOMExercises.js"></script>
+{% endblock scripts %}

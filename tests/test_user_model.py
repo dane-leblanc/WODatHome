@@ -9,9 +9,9 @@ from sqlalchemy import exc
 
 from models import db, User
 
-from app import app
-
 os.environ['DATABASE_URL'] = "postgresql:///WODatHome_test_db"
+
+from app import app
 
 db.create_all()
 
@@ -46,7 +46,7 @@ class UserModelTestCase(TestCase):
 
     def test_valid_registration(self):
         u = User.register("TestUser", "TestPass")
-        uid = 99
+        uid = 11
         u.id = uid
         db.session.commit()
 
