@@ -17,20 +17,22 @@
           <button class="btn btn-primary" type="submit">Filter</button>
         </div>
       </form>
-      {% if exercises == [] %}
-      <h4>-- No Exercises Match Your Filters --</h4>
-      {% else %} {% for exercise in exercises %}
-      <h4>
-        <a href="/exercise/{{exercise.id}}">{{exercise.name}}</a>
-        <button
-          class="btn btn-success btn-sm"
-          data-id="{{exercise.id}}"
-          data-name="{{exercise.name}}"
-        >
-          add
-        </button>
-      </h4>
-      {% endfor %} {% endif %}
+      <div id="exc-options">
+        {% if exercises == [] %}
+        <h4>-- No Exercises Match Your Filters --</h4>
+        {% else %} {% for exercise in exercises %}
+        <h4>
+          <a href="/exercise/{{exercise.id}}">{{exercise.name}}</a>
+          <button
+            class="btn btn-success btn-sm"
+            data-id="{{exercise.id}}"
+            data-name="{{exercise.name}}"
+          >
+            add
+          </button>
+        </h4>
+        {% endfor %} {% endif %}
+      </div>
     </div>
     <div class="col">
       <div class="sticky-top">
@@ -48,6 +50,7 @@
 <script src="https://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
 {% block scripts %} {% endblock scripts %}
+<script src="/static/addExercises.js"></script>
 <script type="text/javascript">
   axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
 </script>
