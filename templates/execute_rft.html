@@ -1,0 +1,44 @@
+{% extends "base.html" %} {% block title %} {{workout.name}} {% endblock title
+%} {% block content %}
+<h1>{{workout.name}}</h1>
+<p>
+  <span id="minutes">00</span>
+  <span id="seconds">00</span>
+  <span id="tenths">00</span>
+</p>
+<button id="button-start" class="btn btn-success">Start</button>
+<button id="button-stop" class="btn btn-danger">Stop</button>
+<h3>Time how long it takes to complete this set {{workout.stages}} times.</h3>
+<ol>
+  {% for exercise in exercises %}
+  <li>
+    {{exercise.count}} {{exercise.count_type}} of {{exercise.exercise.name}}
+  </li>
+  {% endfor %}
+</ol>
+<button id="button-log" class="btn btn-info">Log Results</button>
+<div class="collapse mt-2" id="log-container">
+  <form
+    action="/users/{{username}}/workout/{{workout.id}}/log"
+    method="POST"
+    id="results-form"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <div class="form-group">
+      <label for="results-log"
+        >Store your time along with any additional notes.</label
+      >
+      <textarea
+        name="results-log"
+        id="results-log"
+        cols="20"
+        rows="5"
+        class="form-control"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Save!!!</button>
+  </form>
+</div>
+<script src="https://unpkg.com/jquery"></script>
+<script src="/static/executeRFT.js"></script>
+{% endblock content %}

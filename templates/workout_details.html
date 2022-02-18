@@ -1,6 +1,7 @@
 {% extends "base.html" %} {% block title %} {{workout.name}} {% endblock title
 %} {% block content %}
 <h1>{{workout.name}}</h1>
+<h2>Workout Type: {{workout.type}}</h2>
 {% if workout.type == 'AMRAP' %}
 <h2>Time per Stage: {{workout.stage_time}} min.</h2>
 <h2>Rest Between Stages: {{rest_time}} sec.</h2>
@@ -25,15 +26,25 @@
   </li>
   {% endfor %}
 </ol>
+{% elif workout.type == 'RFT' %}
+<h2>Complete {{workout.stages}} rounds as quickly as possible.</h2>
+<ol>
+  {% for exercise in exercises %}
+  <li>
+    - {{exercise.count}} {{exercise.count_type}} of
+    <a href="/exercise/{{exercise.exercise.id}}">{{exercise.exercise.name}}</a>
+  </li>
+  {% endfor %}
+</ol>
 {% endif %}
 
 <form>
-  <button
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+  <a
     class="btn btn-success"
-    formaction="/users/{{username}}/workout/{{workout.id}}/execute"
+    href="/users/{{username}}/workout/{{workout.id}}/execute"
+    >Start This Workout!</a
   >
-    Start This Workout!
-  </button>
   <button
     class="btn btn-danger"
     formmethod="post"
@@ -42,4 +53,5 @@
     Delete Workout
   </button>
 </form>
+
 {% endblock content %}

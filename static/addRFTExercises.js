@@ -3,13 +3,13 @@ const $container = $(".container-workout");
 const BASE_URL = "http://127.0.0.1:5000";
 const $selectedList = $("#selected-exercises");
 const $clearBtn = $("#clear-button");
-const $saveBtn = $("#save-emom");
+const $saveBtn = $("#save-rft");
 let excList = [];
-let $workoutLength = +$("#time").val();
+let $rounds = +$("#rounds").val();
 
-if (localStorage.time) {
-  $("#time").val(+localStorage.time);
-  $workoutLength = +localStorage.time;
+if (localStorage.rounds) {
+  $("#rounds").val(+localStorage.rounds);
+  $rounds = +localStorage.rounds;
 }
 
 if (localStorage.excList) {
@@ -19,33 +19,16 @@ if (localStorage.excList) {
   fillExercises();
 }
 
-//Listen for changes in workout length
-$("#time").change(function () {
-  $workoutLength = +$("#time").val();
-  console.log($workoutLength);
-  localStorage.setItem("time", JSON.stringify($workoutLength));
-  if (excList.length > $workoutLength) {
-    $selectedList.empty();
-    excList = excList.slice(0, $workoutLength);
-    localStorage.setItem("excList", JSON.stringify(excList));
-    fillExercises();
-  }
-});
-
 $container.on("click", ".btn-success", function (e) {
-  if (excList.length < $workoutLength) {
-    let exerciseId = +$(e.target).attr("data-id");
-    let exerciseName = $(e.target).attr("data-name");
-    let newExc = {
-      id: exerciseId,
-      name: exerciseName,
-    };
-    excList.push(newExc);
-    localStorage.setItem("excList", JSON.stringify(excList));
-    addExercise(newExc);
-  } else {
-    alert("You don't have the time for another exercise.");
-  }
+  let exerciseId = +$(e.target).attr("data-id");
+  let exerciseName = $(e.target).attr("data-name");
+  let newExc = {
+    id: exerciseId,
+    name: exerciseName,
+  };
+  excList.push(newExc);
+  localStorage.setItem("excList", JSON.stringify(excList));
+  addExercise(newExc);
 });
 
 $container.on("dblclick", ".li-exercise", function (e) {
@@ -70,11 +53,11 @@ $("nav").on("click", "a", function () {
 });
 
 $saveBtn.on("click", async function () {
-  let type = "EMOM";
+  let type = "RFT";
   let name = $("#workout-name").text();
   let username = $("#workout-name").attr("data-user");
-  let stages = excList.length;
-  let stage_time = $workoutLength;
+  let stages = $rounds;
+  let stage_time = 0;
 
   //Store workout in db.
   const workoutRes = await axios({
@@ -89,11 +72,10 @@ $saveBtn.on("click", async function () {
     },
   });
 
-  let index = 0;
-  let minute = 1;
-  while (minute <= $workoutLength) {
-    let order = minute;
-    let exercise_id = excList[index].id;
+  //Add workout exercises to db.
+  for (let i = 0; i < excList.length; i++) {
+    let order = i + 1;
+    let exercise_id = excList[i].id;
     let count = $(`input[data-exc=${exercise_id}]`).val();
     let count_type = $(`select[data-exc=${exercise_id}]`).val();
     const WorkoutExcRes = await axios({
@@ -107,8 +89,6 @@ $saveBtn.on("click", async function () {
         count_type,
       },
     });
-    minute = minute + 1;
-    index = (index + 1) % excList.length;
   }
   localStorage.clear();
   window.location.href = `${BASE_URL}/`;

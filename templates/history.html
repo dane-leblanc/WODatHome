@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}
+History
+{% endblock title %}
+{% block content %}
+<h1>{{ username }}'s workout history</h1>
+{% if results == [] %}
+<h3>-- You have no saved results. --</h3>
+{% else %}
+{% endif %}
+<div class="row">
+<div class="col-3"><b>Date</b></div>
+<div class="col-3"><b>Workout</b></div>
+<div class="col-6"><b>Notes</b></div>
+{% for result in results %}
+
+<div class="col-3">{{ result.date }}</div>
+<div class="col-3">
+<a href="/users/{{ username }}/workout/{{ result.workout.id }}">{{ result.workout.name }}</a>
+</div>
+<div class="col-6">{{ result.note }}</div>
+{% endfor %}
+</div>
+{% endblock content %}
+

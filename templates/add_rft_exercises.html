@@ -1,0 +1,21 @@
+{% extends "add_workout_exercises_base.html" %} {% block workout_form %}
+<form action="" id="rft-form">
+  <div class="form-group">
+    <label for="time">Number of Rounds:</label>
+    <input
+      type="number"
+      min="1"
+      max="20"
+      value="3"
+      id="rounds"
+      class="form-control"
+    />
+  </div>
+</form>
+
+{% endblock workout_form %} {% block exercise_list %}
+<ol id="selected-exercises" class="list-group list-group-numbered"></ol>
+<button class="btn btn-primary" id="save-rft">Save RFT</button>
+{% endblock exercise_list %} {% block scripts %}
+<script src="/static/addRFTExercises.js"></script>
+{% endblock scripts %}

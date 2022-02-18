@@ -23,6 +23,8 @@ class User(db.Model):
 
     workouts = db.relationship(
         'Workout', backref='user', cascade='all, delete')
+    results = db.relationship(
+        'Result', backref='user', cascade='all, delete')
 
     @classmethod
     def register(cls, username, password):
@@ -82,6 +84,8 @@ class Result(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     workout_id = db.Column(
         db.Integer, db.ForeignKey('workouts.id'), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey('users.id'), nullable=False)
     date = db.Column(db.Date, nullable=False, default=datetime.utcnow())
     note = db.Column(db.String(100))
 

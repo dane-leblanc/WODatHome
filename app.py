@@ -1,7 +1,14 @@
 from flask import Flask, render_template, redirect, jsonify, session, request
 from flask_wtf.csrf import CSRFProtect
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Workout, Exercise, WorkoutExercise
+from models import (
+    connect_db,
+    db,
+    User,
+    Workout,
+    Exercise,
+    WorkoutExercise,
+    Result)
 from forms import UserAddForm, LoginForm, SearchExerciseForm, AddWorkoutForm
 import os
 import fetch
@@ -120,56 +127,9 @@ def user_home(username):
         return render_template('user_home.html', user=user, workouts=workouts)
 
 
-@app.route('/users/<username>/workout/<int:id>')
-def workout_info(username, id):
-    """Show the exercises within this workout and give
-    options to delete and execute workout"""
-    if 'username' not in session or username != session['username']:
-        return redirect('/')
-    else:
-        workout = Workout.query.get(id)
-        exercises = WorkoutExercise.query.filter_by(
-            workout_id=workout.id
-            ).all()
-        if workout.type == 'AMRAP':
-            exercises_per_stage = int(
-                (len(exercises) - workout.stages + 1) / workout.stages)
-            workout_stages = []
-            tick = 0
-            while tick < len(exercises):
-                workout_stages.append(exercises[tick:tick+exercises_per_stage])
-                tick = tick + exercises_per_stage + 1
-            rest_time = exercises[exercises_per_stage].count
-            return render_template(
-                'workout_details.html',
-                workout=workout,
-                exercises=exercises,
-                username=username,
-                workout_stages=workout_stages,
-                rest_time=rest_time)
-        if workout.type == 'EMOM':
-            return render_template(
-                'workout_details.html',
-                username=username,
-                workout=workout,
-                exercises=exercises,)
-
-
-@app.route('/users/<username>/workout/<int:id>/delete', methods=["POST"])
-def delete_workout(username, id):
-    if 'username' not in session or username != session['username']:
-        return redirect('/')
-    else:
-        workout = Workout.query.get(id)
-        db.session.delete(workout)
-        db.session.commit()
-        return redirect(f'/users/{username}')
-
-
 @app.route('/users/<username>/workout/create', methods=["GET", "POST"])
 def create_workout(username):
-    """Create an empty workout (no exercises).
-    Don't commit to db until exercises are associated with the workout."""
+    """Begin creation of new workout."""
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
@@ -222,8 +182,16 @@ def set_workout_details(username, workout_type, workout_name):
                     exercises=exercises,
                     equip_list=equip_list,
                     username=username,
-                    workout_name=workout_name
-                )
+                    workout_name=workout_name)
+
+            if (workout_type == 'RFT'):
+                return render_template(
+                    'add_rft_exercises.html',
+                    browse_form=browse_form,
+                    exercises=exercises,
+                    equip_list=equip_list,
+                    username=username,
+                    workout_name=workout_name)
 
         if (workout_type == 'AMRAP'):
             return render_template(
@@ -237,8 +205,118 @@ def set_workout_details(username, workout_type, workout_name):
                 'add_emom_exercises.html',
                 username=username,
                 workout_name=workout_name,
-                browse_form=browse_form
-            )
+                browse_form=browse_form)
+
+        if (workout_type == 'RFT'):
+            return render_template(
+                'add_rft_exercises.html',
+                username=username,
+                workout_name=workout_name,
+                browse_form=browse_form)
+
+
+@app.route('/users/<username>/workout/<int:id>')
+def workout_info(username, id):
+    """Show the exercises within this workout and give
+    options to delete and execute workout"""
+    if 'username' not in session or username != session['username']:
+        return redirect('/')
+    else:
+        workout = Workout.query.get(id)
+        exercises = WorkoutExercise.query.filter_by(
+            workout_id=workout.id
+            ).all()
+        if workout.type == 'AMRAP':
+            exercises_per_stage = int(
+                (len(exercises) - workout.stages + 1) / workout.stages)
+            workout_stages = []
+            tick = 0
+            while tick < len(exercises):
+                workout_stages.append(exercises[tick:tick+exercises_per_stage])
+                tick = tick + exercises_per_stage + 1
+            rest_time = exercises[exercises_per_stage].count
+            return render_template(
+                'workout_details.html',
+                workout=workout,
+                exercises=exercises,
+                username=username,
+                workout_stages=workout_stages,
+                rest_time=rest_time)
+        if workout.type == 'EMOM' or workout.type == 'RFT':
+            return render_template(
+                'workout_details.html',
+                username=username,
+                workout=workout,
+                exercises=exercises,)
+
+
+@app.route('/users/<username>/workout/<int:id>/execute')
+def execute_workout(username, id):
+    if 'username' not in session or username != session['username']:
+        return redirect('/')
+    else:
+        workout = Workout.query.get(id)
+        exercises = WorkoutExercise.query.filter_by(workout_id=id).all()
+        if (workout.type == 'RFT'):
+            return render_template(
+                'execute_rft.html',
+                username=username,
+                workout=workout,
+                exercises=exercises)
+        if (workout.type == 'EMOM'):
+            return render_template(
+                'execute_emom.html',
+                username=username,
+                workout=workout,
+                exercises=exercises)
+        if (workout.type == 'AMRAP'):
+            return render_template(
+                'execute_amrap.html',
+                username=username,
+                workout=workout,
+                exercises=exercises)
+        else:
+            return redirect('/')
+
+
+@app.route('/users/<username>/workout/<int:id>/log', methods=["POST"])
+def log_results(username, id):
+    if 'username' not in session or username != session['username']:
+        return redirect('/')
+    else:
+        user = User.query.filter_by(username=username).one()
+        result_notes = request.form.get("results-log")
+        new_result = Result(
+            workout_id=id,
+            user_id=user.id,
+            note=result_notes)
+        db.session.add(new_result)
+        db.session.commit()
+        return redirect(f'/users/{username}/history')
+
+
+@app.route('/users/<username>/history')
+def workout_history(username):
+    if 'username' not in session or username != session['username']:
+        return redirect('/')
+    else:
+        user = User.query.filter_by(username=username).one()
+        results = user.results
+        return render_template(
+            'history.html',
+            username=username,
+            results=results)
+
+
+@app.route('/users/<username>/workout/<int:id>/delete', methods=["POST"])
+def delete_workout(username, id):
+    if 'username' not in session or username != session['username']:
+        return redirect('/')
+    else:
+        workout = Workout.query.get(id)
+        db.session.delete(workout)
+        db.session.commit()
+        return redirect(f'/users/{username}')
 
 
 @app.route('/logout')
