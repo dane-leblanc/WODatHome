@@ -6,13 +6,17 @@ let tenths = 0;
 let interval = 0;
 let exercises = [];
 let workout = {};
+let restTime = 0;
+let workoutStages = [];
+let currStage = 1;
+let rest = false;
 
 const $workoutId = $("#workout").attr("data-id");
 const $appendMinutes = $("#minutes");
 const $appendSeconds = $("#seconds");
 const $appendTenths = $("#tenths");
 const $startBtn = $("#button-start");
-const $display = $("#display")
+const $display = $("#display");
 const $logBtn = $("#button-log");
 
 getExercises();
@@ -24,9 +28,39 @@ $logBtn.on("click", function () {
 
 $startBtn.on("click", function () {
   minutes = workout.stage_time;
+  splitIntoStages();
+  displayStageWorkouts(currStage);
   clearInterval(interval);
   interval = setInterval(startCountdown, 10);
 });
+
+function displayStageWorkouts(stage) {
+  let $displayDiv = $("<div>");
+  for (let exercise of workoutStages[stage - 1]) {
+    let $newP = $("<p>");
+    $newP.text(`${exercise.count} ${exercise.count_type} of ${exercise.name}`);
+    $newP.appendTo($displayDiv);
+  }
+  $display.html($displayDiv);
+}
+
+function displayRest() {
+  let $displayDiv = $("<div>");
+  let $restH2 = $("<h2>REST</h2>");
+  $restH2.appendTo($displayDiv);
+  $display.html($displayDiv);
+}
+
+function splitIntoStages() {
+  let exercisesPerStage =
+    (exercises.length - workout.stages + 1) / workout.stages;
+  let tick = 0;
+  while (tick < exercises.length) {
+    workoutStages.push(exercises.slice(tick, tick + exercisesPerStage));
+    tick = tick + exercisesPerStage + 1;
+  }
+  restTime = exercises[exercisesPerStage].count;
+}
 
 function startCountdown() {
   tenths--;
@@ -47,23 +81,50 @@ function startCountdown() {
     $appendSeconds.html("0" + seconds);
   }
   if (seconds < 0) {
-    minutes--;
-    $appendMinutes.html("0" + minutes);
     seconds = 59;
     $appendSeconds.html(seconds);
+    minutes--;
+    $appendMinutes.html("0" + minutes);
   }
-  if ((minutes = 0)) {
+  if (minutes === 0 && seconds === 0 && tenths === 0) {
     clearInterval(interval);
-    alert("next stage");
+    nextStage();
+  }
+}
+
+function nextStage() {
+  if (currStage === workoutStages.length) {
+    let $displayDiv = $("<div>");
+    let $doneH2 = $(
+      "<h2>Workout Complete! (Don't forget to log your results)</h2>"
+    );
+    $doneH2.appendTo($displayDiv);
+    $display.html($displayDiv);
+    return;
+  }
+  if (rest === false) {
+    rest = true;
+    displayRest();
+    let restMins = Math.floor(restTime / 60);
+    let restSecs = Math.floor(restTime % 60);
+    minutes = restMins;
+    seconds = restSecs;
+    interval = setInterval(startCountdown, 10);
+  } else {
+    rest = false;
+    currStage++;
+    displayStageWorkouts(currStage);
+    minutes = workout.stage_time;
+    interval = setInterval(startCountdown, 10);
   }
 }
 
 async function getExercises() {
-    const res = await axios.get(`/api/workout_exercises/${$workoutId}`);
-    exercises = res.data;
-  }
-  
-  async function getWorkout() {
-    const res = await axios.get(`/api/workout/${$workoutId}`);
-    workout = res.data;
-  }
+  const res = await axios.get(`/api/workout_exercises/${$workoutId}`);
+  exercises = res.data;
+}
+
+async function getWorkout() {
+  const res = await axios.get(`/api/workout/${$workoutId}`);
+  workout = res.data;
+}

@@ -18,7 +18,7 @@ $saveBtn.on("click", async function () {
   let stages = excList.length;
   let stage_time = $workoutLength;
 
-  postWorkout(stages, stage_time);
+  await postWorkout(stages, stage_time);
 
   let index = 0;
   let minute = 1;
@@ -26,7 +26,7 @@ $saveBtn.on("click", async function () {
     let order = minute;
     let exercise_id = excList[index].id;
 
-    postWorkoutExercises(order, exercise_id);
+    await postWorkoutExercises(order, exercise_id);
 
     minute = minute + 1;
     index = (index + 1) % excList.length;

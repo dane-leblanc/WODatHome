@@ -50,7 +50,7 @@ function startCountdown() {
   if (seconds <= 9) {
     $appendSeconds.html("0" + seconds);
   }
-  if (seconds == 0) {
+  if (seconds === 0 && tenths === 0) {
     nextMinute();
   }
 }

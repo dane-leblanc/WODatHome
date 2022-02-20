@@ -25,6 +25,16 @@ if (localStorage.rounds) {
   $rounds = +localStorage.rounds;
 }
 
+if (localStorage.restTime) {
+  $("#rest-time").val(localStorage.restTime);
+  $restTime = +localStorage.restTime;
+}
+
+if (localStorage.stageTime) {
+  $("#stage-time").val(localStorage.stageTime);
+  $stageTime = +localStorage.stageTime;
+}
+
 if (localStorage.excPerStage) {
   $("#exc-per-stage").val(localStorage.excPerStage);
   $excPerStageVal = +localStorage.excPerStage;

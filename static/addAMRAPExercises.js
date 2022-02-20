@@ -3,8 +3,19 @@ const $saveBtn = $("#save-amrap");
 let $stagesVal = +$("#stages").val();
 let $excPerStageVal = +$("#exc-per-stage").val();
 let $stageTime = +$("#stage-time").val();
+let $restTime = +$("#rest-time").val();
 
 //Listen for changes in AMRAP form
+$("#rest-time").change(function () {
+  $restTime = +$("#rest-time").val();
+  localStorage.setItem("restTime", $restTime);
+});
+
+$("#stage-time").change(function () {
+  $stageTime = +$("#stage-time").val();
+  localStorage.setItem("stageTime", $stageTime);
+});
+
 $("#stages").change(function () {
   $selectedList.empty();
   $stagesVal = +$("#stages").val();
@@ -40,7 +51,7 @@ $saveBtn.on("click", async function () {
     let stages = $stagesVal;
     let stage_time = +$("#stage-time").val();
 
-    postWorkout(stages, stage_time);
+    await postWorkout(stages, stage_time);
 
     excList = addRests(excList);
 
@@ -48,7 +59,7 @@ $saveBtn.on("click", async function () {
       let order = i + 1;
       let exercise_id = excList[i].id;
 
-      postWorkoutExercises(order, exercise_id);
+      await postWorkoutExercises(order, exercise_id);
     }
     localStorage.clear();
     window.location.href = `${BASE_URL}/`;
