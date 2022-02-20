@@ -158,6 +158,13 @@ def set_workout_details(username, workout_type, workout_name):
         category_input = request.args.get("category")
         equipment_id_input = request.args.getlist("equipment")
 
+        if (workout_type == 'AMRAP'):
+            template = 'add_amrap_exercises.html'
+        elif (workout_type == 'EMOM'):
+            template = 'add_emom_exercises.html'
+        elif (workout_type == 'RFT'):
+            template = 'add_rft_exercises.html'
+
         if category_input:
             equip_list = queries.get_equip_list(equipment_id_input)
 
@@ -166,57 +173,23 @@ def set_workout_details(username, workout_type, workout_name):
                 name_input,
                 category_input)
 
-            if (workout_type == 'AMRAP'):
-                return render_template(
-                    'add_amrap_exercises.html',
-                    browse_form=browse_form,
-                    exercises=exercises,
-                    equip_list=equip_list,
-                    username=username,
-                    workout_name=workout_name)
-
-            if (workout_type == 'EMOM'):
-                return render_template(
-                    'add_emom_exercises.html',
-                    browse_form=browse_form,
-                    exercises=exercises,
-                    equip_list=equip_list,
-                    username=username,
-                    workout_name=workout_name)
-
-            if (workout_type == 'RFT'):
-                return render_template(
-                    'add_rft_exercises.html',
-                    browse_form=browse_form,
-                    exercises=exercises,
-                    equip_list=equip_list,
-                    username=username,
-                    workout_name=workout_name)
-
-        if (workout_type == 'AMRAP'):
             return render_template(
-                'add_amrap_exercises.html',
+                template,
+                browse_form=browse_form,
+                exercises=exercises,
+                equip_list=equip_list,
                 username=username,
-                workout_name=workout_name,
-                browse_form=browse_form)
+                workout_name=workout_name)
 
-        if (workout_type == 'EMOM'):
-            return render_template(
-                'add_emom_exercises.html',
-                username=username,
-                workout_name=workout_name,
-                browse_form=browse_form)
-
-        if (workout_type == 'RFT'):
-            return render_template(
-                'add_rft_exercises.html',
-                username=username,
-                workout_name=workout_name,
-                browse_form=browse_form)
+        return render_template(
+            template,
+            username=username,
+            workout_name=workout_name,
+            browse_form=browse_form)
 
 
 @app.route('/users/<username>/workout/<int:id>')
-def workout_info(username, id):
+def workout_details(username, id):
     """Show the exercises within this workout and give
     options to delete and execute workout"""
     if 'username' not in session or username != session['username']:
@@ -225,7 +198,7 @@ def workout_info(username, id):
         workout = Workout.query.get(id)
         exercises = WorkoutExercise.query.filter_by(
             workout_id=workout.id
-            ).all()
+            ).order_by(WorkoutExercise.order).all()
         if workout.type == 'AMRAP':
             exercises_per_stage = int(
                 (len(exercises) - workout.stages + 1) / workout.stages)
@@ -256,27 +229,19 @@ def execute_workout(username, id):
         return redirect('/')
     else:
         workout = Workout.query.get(id)
-        exercises = WorkoutExercise.query.filter_by(workout_id=id).all()
-        if (workout.type == 'RFT'):
-            return render_template(
-                'execute_rft.html',
-                username=username,
-                workout=workout,
-                exercises=exercises)
-        if (workout.type == 'EMOM'):
-            return render_template(
-                'execute_emom.html',
-                username=username,
-                workout=workout,
-                exercises=exercises)
+        exercises = WorkoutExercise.query.filter_by(workout_id=id).order_by(WorkoutExercise.order).all()
         if (workout.type == 'AMRAP'):
-            return render_template(
-                'execute_amrap.html',
-                username=username,
-                workout=workout,
-                exercises=exercises)
-        else:
-            return redirect('/')
+            template = 'execute_amrap.html'
+        elif (workout.type == 'EMOM'):
+            template = 'execute_emom.html'
+        elif (workout.type == 'RFT'):
+            template = 'execute_amrap.html'
+
+        return render_template(
+            template,
+            username=username,
+            workout=workout,
+            exercises=exercises)
 
 
 @app.route('/users/<username>/workout/<int:id>/log', methods=["POST"])
@@ -328,10 +293,28 @@ def logout():
 """For AJAX requests"""
 
 
-@app.route('/api/exercises/<int:id>')
-def get_exercise(id):
-    exercise = Exercise.query.get_or_404(id)
-    return jsonify(exercise=exercise.serialize())
+@app.route('/api/workout/<int:id>')
+def get_workout(id):
+    workout = Workout.query.get_or_404(id)
+    return jsonify(workout.serialize())
+
+
+@app.route('/api/workout_exercises/<int:id>')
+def get_workout_exercises(id):
+    workout = Workout.query.get_or_404(id)
+    exercises = WorkoutExercise.query.filter_by(
+        workout_id=workout.id
+        ).order_by(WorkoutExercise.order).all()
+    serialized_exercises = []
+    for exercise in exercises:
+        exc = {
+            "name": exercise.exercise.name,
+            "count": exercise.count,
+            "count_type": exercise.count_type
+        }
+        serialized_exercises.append(exc)
+
+    return jsonify(serialized_exercises)
 
 
 @app.route('/api/workouts', methods=["POST"])

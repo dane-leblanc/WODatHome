@@ -1,0 +1,36 @@
+{% extends "base.html" %} {% block title %} {{workout.name}} {% endblock title
+%}
+{% block content %}
+<h1 id="workout" data-id="{{workout.id}}">{{workout.name}}</h1>
+
+{% block workout %}
+
+{% endblock workout %}
+<button id="button-log" class="btn btn-info">Log Results</button>
+<div class="collapse mt-2" id="log-container">
+  <form
+    action="/users/{{username}}/workout/{{workout.id}}/log"
+    method="POST"
+    id="results-form"
+  >
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+    <div class="form-group">
+      <label for="results-log"
+        >Store your time along with any additional notes.</label
+      >
+      <textarea
+        name="results-log"
+        id="results-log"
+        cols="20"
+        rows="5"
+        class="form-control"
+      ></textarea>
+    </div>
+    <button type="submit" class="btn btn-success">Save!!!</button>
+  </form>
+</div>
+<script src="https://unpkg.com/jquery"></script>
+{% block script %}
+
+{% endblock script %}
+{% endblock content %}

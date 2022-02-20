@@ -1,6 +1,5 @@
-{% extends "base.html" %} {% block title %} {{workout.name}} {% endblock title
-%} {% block content %}
-<h1>{{workout.name}}</h1>
+{% extends "execute_workout_base.html" %}
+{% block workout %}
 <p>
   <span id="minutes">00</span>
   <span id="seconds">00</span>
@@ -16,29 +15,7 @@
   </li>
   {% endfor %}
 </ol>
-<button id="button-log" class="btn btn-info">Log Results</button>
-<div class="collapse mt-2" id="log-container">
-  <form
-    action="/users/{{username}}/workout/{{workout.id}}/log"
-    method="POST"
-    id="results-form"
-  >
-    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
-    <div class="form-group">
-      <label for="results-log"
-        >Store your time along with any additional notes.</label
-      >
-      <textarea
-        name="results-log"
-        id="results-log"
-        cols="20"
-        rows="5"
-        class="form-control"
-      ></textarea>
-    </div>
-    <button type="submit" class="btn btn-success">Save!!!</button>
-  </form>
-</div>
-<script src="https://unpkg.com/jquery"></script>
+{% endblock workout %}
+{% block script %}
 <script src="/static/executeRFT.js"></script>
-{% endblock content %}
+{% endblock script %}

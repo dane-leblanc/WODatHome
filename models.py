@@ -67,15 +67,22 @@ class Workout(db.Model):
     stages = db.Column(db.Integer)
     stage_time = db.Column(db.Integer)
 
-    # I'm unsure if I want results to be deleted if the workout is deleted.
     results = db.relationship(
         'Result', backref='workout', cascade='all, delete')
 
-    # I think I'm going to need to use this if I want to maintain the order
-    # of the exercises within the workout.
     workout_exercises = db.relationship(
         'WorkoutExercise', backref='workout', cascade='all, delete')
 
+    def serialize(self):
+        """Returns a dict representation of Workout to turn to JSON"""
+        return {
+            'id': self.id,
+            'user_id': self.user_id,
+            'type': self.type,
+            'name': self.name,
+            'stages': self.stages,
+            'stage_time': self.stage_time
+        }
 
 class Result(db.Model):
     """Workout results"""

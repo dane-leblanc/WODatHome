@@ -22,7 +22,6 @@ $stopBtn.on("click", function () {
 });
 
 $logBtn.on("click", function () {
-  console.log("LOG");
   $("#log-container").removeClass("collapse");
 });
 

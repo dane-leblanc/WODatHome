@@ -1,1 +1,33 @@
-{% extends "base.html" %}
+
+{% extends "execute_workout_base.html" %}
+{% block workout %}
+<p>
+  <span id="seconds">60</span>
+  <span id="tenths">00</span>
+</p>
+<button id="button-start" class="btn btn-success">Start</button>
+<button id="button-stop" class="btn btn-danger">Pause</button>
+<div class="row">
+  <div class="col-4">
+    <ol id="excList">
+      {% for exercise in exercises %}
+      <li>
+        - {{exercise.count}} {{exercise.count_type}} of
+        {{exercise.exercise.name}}
+      </li>
+      {% endfor %}
+    </ol>
+  </div>
+  <div class="col-8">
+    <h4>Minute - <span id="minuteDisplay"></span></h4>
+    <h2 class="font-weight-bold">
+      Current Exercise <span id="currentExc"></span>
+    </h2>
+    <h4>Next Exercise <span id="nextExc"></span></h4>
+  </div>
+</div>
+{% endblock workout %}
+{% block script %}
+<script src="/static/executeEMOM.js"></script>
+{% endblock script %}
+

@@ -5,7 +5,6 @@ let $workoutLength = +$("#time").val();
 //Listen for changes in workout length
 $("#time").change(function () {
   $workoutLength = +$("#time").val();
-  console.log($workoutLength);
   localStorage.setItem("time", JSON.stringify($workoutLength));
   if (excList.length > $workoutLength) {
     $selectedList.empty();
