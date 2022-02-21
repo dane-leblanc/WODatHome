@@ -12,9 +12,18 @@ Wireframes (created by drawIO) can be found [here](https://drive.google.com/file
 
 ---
 **User Flow**
-*Before registering* a user is able to browse different exercises based on different criteria including, but not limited to, available equipment. Users will be required to register before they are able to create/save workouts and log the results of any workouts.
 
+*Before registering*, a user is able to browse different exercises based on different criteria including, but not limited to, available equipment. Users will be required to register before they are able to create/save workouts and log the results of any workouts.
 
+Once registered, users are able will have access to all of their saved workouts as well as their workout history of logged workouts.
+
+New users should begin their experience by creating their first workout. After choosing between creating an AMRAP, EMOM, or RFT they will be taken to a page where they can select exercises from a list of exercises from the WGER API that have been filtered to their needs/specifications. Once an exercise has been added to the workout, users can specify how many reps or seconds are required for that particular exercise. During this stage, Local Storage will be utilized so that if a user checks on the details of an exercise or adjusts their search filters the specifics of their workout list will be unaffected. 
+
+Once the workout is saved, it will be added to the user's homepage and will remain available until it is deleted by the user.
+
+Users have the option to execute any of their saved workouts. For the execution of the workouts, users will be taken to a window with a timer that is created specifically for this workout. Once the timer is started, the window will display instructions for the current round/stage of the workout, including what exercises should be done. 
+
+From this window users are able (and encouraged) to log their results. The date and workout will be stored automatically, but the user will need to include a note if they want record of their actual results for that day. All logged results can be accessed from the "Your History" tab. This is a great way to track your growth, or to just look back and admire your previous accomplishments!
 
 ---
 
