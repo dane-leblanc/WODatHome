@@ -1,4 +1,11 @@
-from flask import Flask, render_template, redirect, jsonify, session, request
+from flask import (
+    Flask,
+    render_template,
+    redirect,
+    jsonify,
+    session,
+    request,
+    flash)
 from flask_wtf.csrf import CSRFProtect
 from flask_debugtoolbar import DebugToolbarExtension
 from models import (
@@ -77,10 +84,11 @@ def login():
         if user:
             session['username'] = username
             return redirect(f'/users/{username}')
-        else:
-            form.username.errors = [
-                'Username/Password not found. Please try again.']
-            return render_template('login.html', form=form)
+        # else:
+        #     form.username.errors = [
+        #         'Username/Password not found. Please try again.']
+            
+        flash("Invalid username/password", "danger")
     return render_template('login.html', form=form)
 
 

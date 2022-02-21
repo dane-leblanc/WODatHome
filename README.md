@@ -11,6 +11,12 @@ This app will make use of the [wger REST API](https://wger.de/en/software/api) f
 Wireframes (created by drawIO) can be found [here](https://drive.google.com/file/d/1yAY6GoaadWmxEO3Tsi-nS69-XsKmUaJ0/view?usp=sharing).
 
 ---
+**User Flow**
+*Before registering* a user is able to browse different exercises based on different criteria including, but not limited to, available equipment. Users will be required to register before they are able to create/save workouts and log the results of any workouts.
+
+
+
+---
 
 **Running the App (python3 and PostgreSQL required)**
 
