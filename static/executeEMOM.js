@@ -58,9 +58,9 @@ function startCountdown() {
 function nextMinute() {
   currMinute++;
   $(`#excList li:nth-child(${currMinute})`).addClass("font-weight-bold");
-  if (currMinute == workoutMinutes) {
+  if (currMinute - 1 == workoutMinutes) {
     clearInterval(interval);
-    return alert("Exercise Complete!");
+    return alert("Exercise Complete! Don't forget to log your results.");
   }
   seconds = 60;
   tenths = 0;
@@ -72,12 +72,12 @@ function nextMinute() {
 }
 
 function displayExercises() {
-  $minuteDisplay.text(currMinute + 1);
-  $appendCurrExc.text(excList[currMinute].innerText);
-  if (currMinute + 1 !== workoutMinutes) {
-    $appendNextExc.text(excList[currMinute + 1].innerText);
+  $minuteDisplay.text(currMinute);
+  $appendCurrExc.text(excList[currMinute - 1].innerText);
+  if (currMinute !== workoutMinutes) {
+    $appendNextExc.text(excList[currMinute].innerText);
   } else {
-    $appendNextExc.text("Last one!!!");
+    $appendNextExc.text("- Last one!!!");
   }
 }
 

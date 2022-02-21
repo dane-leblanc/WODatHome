@@ -80,6 +80,8 @@ $excOptions.on("click", ".btn-success", function (e) {
   let newExc = {
     id: exerciseId,
     name: exerciseName,
+    count: 10,
+    count_type: "reps",
   };
   excList.push(newExc);
   localStorage.setItem("excList", JSON.stringify(excList));
@@ -103,6 +105,28 @@ $selectedList.on("dblclick", ".li-exercise", function (e) {
       return;
     }
   }
+});
+
+$selectedList.on("change", ".exc-list-count", function (e) {
+  let excId = +$(e.target).attr("data-exc");
+  let newCount = +$(e.target).val();
+  for (let exc of excList) {
+    if (exc.id === excId) {
+      exc.count = newCount;
+    }
+  }
+  localStorage.setItem("excList", JSON.stringify(excList));
+});
+
+$selectedList.on("change", ".exc-list-select", function (e) {
+  let excId = +$(e.target).attr("data-exc");
+  let newCountType = $(e.target).val();
+  for (let exc of excList) {
+    if (exc.id === excId) {
+      exc.count_type = newCountType;
+    }
+  }
+  localStorage.setItem("excList", JSON.stringify(excList));
 });
 
 function fillExercises() {
@@ -138,7 +162,7 @@ function appendExercise(exc, index) {
     $newLi.appendTo($selectedList);
   }
   let $count = $(
-    `<input type="number" class="exc-list-count form-control-sm m-1" data-exc="${exc.id}" value="10"/>`
+    `<input type="number" class="exc-list-count form-control-sm m-1" data-exc="${exc.id}" value="${exc.count}"/>`
   );
   $count.appendTo($newLi);
   let $countType = $(
@@ -147,6 +171,7 @@ function appendExercise(exc, index) {
       <option value="seconds">seconds</option>
     </select>`
   );
+  $countType.val(exc.count_type);
   $countType.appendTo($newLi);
 }
 

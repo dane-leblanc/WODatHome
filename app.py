@@ -149,6 +149,7 @@ def create_workout(username):
     '/users/<username>/workout/create/<workout_type>/<workout_name>',
     methods=["GET"])
 def set_workout_details(username, workout_type, workout_name):
+    """Customize workout details and add exercises"""
     if 'username' not in session or username != session['username']:
         return redirect('/')
     else:
@@ -229,13 +230,14 @@ def execute_workout(username, id):
         return redirect('/')
     else:
         workout = Workout.query.get(id)
-        exercises = WorkoutExercise.query.filter_by(workout_id=id).order_by(WorkoutExercise.order).all()
+        exercises = WorkoutExercise.query.filter_by(
+            workout_id=id).order_by(WorkoutExercise.order).all()
         if (workout.type == 'AMRAP'):
             template = 'execute_amrap.html'
         elif (workout.type == 'EMOM'):
             template = 'execute_emom.html'
         elif (workout.type == 'RFT'):
-            template = 'execute_amrap.html'
+            template = 'execute_rft.html'
 
         return render_template(
             template,
@@ -319,11 +321,11 @@ def get_workout_exercises(id):
 
 @app.route('/api/workouts', methods=["POST"])
 def add_workout():
-    username = request.json["username"]
-    type = request.json["type"]
-    name = request.json["name"]
-    stages = int(request.json["stages"])
-    stage_time = int(request.json["stage_time"])
+    username = request.json.get("username")
+    type = request.json.get("type")
+    name = request.json.get("name")
+    stages = int(request.json.get("stages"))
+    stage_time = int(request.json.get("stage_time"))
 
     user = User.query.filter_by(username=username).one()
     user_id = user.id
@@ -340,11 +342,11 @@ def add_workout():
 
 @app.route('/api/workout-exercises', methods=["POST"])
 def add_workout_exercises():
-    workout_name = request.json["name"]
-    order = request.json["order"]
-    exercise_id = request.json["exercise_id"]
-    count = request.json["count"]
-    count_type = request.json["count_type"]
+    workout_name = request.json.get("name")
+    order = request.json.get("order")
+    exercise_id = request.json.get("exercise_id")
+    count = request.json.get("count")
+    count_type = request.json.get("count_type")
 
     workout = Workout.query.filter_by(
         name=workout_name

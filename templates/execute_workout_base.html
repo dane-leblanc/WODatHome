@@ -3,6 +3,25 @@
 {% block content %}
 <h1 id="workout" data-id="{{workout.id}}">{{workout.name}}</h1>
 
+<div class="display-1 text-center mb-2">
+<div id="timer" class="d-inline-block">
+{% if workout.type == EMOM %}
+  <span id="seconds" class="pl-2">60</span>
+  <span id="tenths" class="pr-2">00</span>
+{% else %}
+  <span id="minutes">00</span>
+  <span id="seconds">00</span>
+  <span id="tenths">00</span>
+{% endif %}
+
+</div>
+</div>
+<div id="timer-buttons" class="text-center mb-3">
+<button id="button-start" class="btn btn-success">Start</button>
+<button id="button-stop" class="btn btn-danger">Pause</button>
+</div>
+
+
 {% block workout %}
 
 {% endblock workout %}

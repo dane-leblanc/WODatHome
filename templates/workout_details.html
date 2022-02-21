@@ -10,7 +10,7 @@
 {% set tick.value = tick.value + 1 %}
 <ul>
   {% for exercise in stage %}
-  <li>
+  <li class="h5">
     {{exercise.count}} {{exercise.count_type}} of
     <a href="/exercise/{{exercise.exercise.id}}">{{exercise.exercise.name}}</a>
   </li>
@@ -20,7 +20,7 @@
 <h2>Every Minute, on the Minute</h2>
 <ol>
   {% for exercise in exercises %}
-  <li>
+  <li class="h5">
     - {{exercise.count}} {{exercise.count_type}} of
     <a href="/exercise/{{exercise.exercise.id}}">{{exercise.exercise.name}}</a>
   </li>
@@ -30,7 +30,7 @@
 <h2>Complete {{workout.stages}} rounds as quickly as possible.</h2>
 <ol>
   {% for exercise in exercises %}
-  <li>
+  <li class="h5">
     - {{exercise.count}} {{exercise.count_type}} of
     <a href="/exercise/{{exercise.exercise.id}}">{{exercise.exercise.name}}</a>
   </li>

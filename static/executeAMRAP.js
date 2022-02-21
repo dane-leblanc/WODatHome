@@ -16,6 +16,7 @@ const $appendMinutes = $("#minutes");
 const $appendSeconds = $("#seconds");
 const $appendTenths = $("#tenths");
 const $startBtn = $("#button-start");
+const $stopBtn = $("#button-stop");
 const $display = $("#display");
 const $logBtn = $("#button-log");
 
@@ -34,8 +35,14 @@ $startBtn.on("click", function () {
   interval = setInterval(startCountdown, 10);
 });
 
+$stopBtn.on("click", function () {
+  clearInterval(interval);
+});
+
 function displayStageWorkouts(stage) {
   let $displayDiv = $("<div>");
+  let $stageP = $(`<p><u>Stage ${currStage}</u></p>`);
+  $stageP.appendTo($displayDiv);
   for (let exercise of workoutStages[stage - 1]) {
     let $newP = $("<p>");
     $newP.text(`${exercise.count} ${exercise.count_type} of ${exercise.name}`);

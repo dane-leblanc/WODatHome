@@ -5,7 +5,7 @@ title %} {% block content %}
 <h2><u>Your Workouts</u></h2> 
 <ul>
     {% for workout in workouts %}
-    <li><a href="/users/{{user.username}}/workout/{{workout.id}}">{{workout.name}}</a></li>
+    <li class="h3"><a href="/users/{{user.username}}/workout/{{workout.id}}">{{workout.name}}</a></li>
     {% endfor %}
 </ul>
 {% endblock content %}
