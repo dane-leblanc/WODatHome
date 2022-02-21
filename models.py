@@ -84,6 +84,7 @@ class Workout(db.Model):
             'stage_time': self.stage_time
         }
 
+
 class Result(db.Model):
     """Workout results"""
     __tablename__ = 'results'

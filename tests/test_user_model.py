@@ -20,9 +20,20 @@ class UserModelTestCase(TestCase):
     """Test User Model"""
 
     def setUp(self):
-        """Create test client, add sample data and test user"""
+        """Add sample data and test user"""
         db.drop_all()
         db.create_all()
+
+        u1 = User.register("test1", "password")
+        u1id = 1111
+        u1.id = u1id
+
+        db.session.commit()
+
+        u1 = User.query.get(u1id)
+
+        self.u1 = u1
+        self.u1id = u1id
 
     def tearDown(self):
         res = super().tearDown()
@@ -67,7 +78,7 @@ class UserModelTestCase(TestCase):
 
         # Register with no Username *****NOT PASSING*****
         # with self.assertRaises(ValueError) as context:
-        # User.register("", "TestPass")
+        #     User.register("", "TestPass")
 
         # Register with a username that has already been taken
         u1 = User.register("TestUser", "TestPass1")
@@ -81,3 +92,14 @@ class UserModelTestCase(TestCase):
 
         with self.assertRaises(exc.IntegrityError) as context:
             db.session.commit()
+
+    def test_valid_authentication(self):
+        u = User.authenticate(self.u1.username, "password")
+        self.assertIsNotNone(u)
+        self.assertEqual(u.id, self.u1id)
+
+    def test_invalid_username(self):
+        self.assertFalse(User.authenticate("wrong_user", "password"))
+
+    def test_wrong_password(self):
+        self.assertFalse(User.authenticate(self.u1.username, "wrong_password"))

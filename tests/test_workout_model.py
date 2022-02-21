@@ -20,6 +20,7 @@ class WorkoutModelTestCase(TestCase):
     """Test Workout Model"""
 
     def setUp(self):
+        """Add test user"""
         db.drop_all()
         db.create_all()
 
@@ -47,3 +48,8 @@ class WorkoutModelTestCase(TestCase):
 
         self.assertEqual(Workout.query.get(1), test_workout)
         self.assertEqual(test_workout.name, "Test AMRAP")
+        self.assertEqual(test_workout.type, "AMRAP")
+        self.assertEqual(test_workout.stages, 3)
+
+        # Test user-workout relationship
+        self.assertEqual(test_workout.user, User.query.get(555))
