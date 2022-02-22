@@ -37,7 +37,8 @@ class SearchExerciseForm(FlaskForm):
             'Legs',
             'Shoulders'])
     equipment = SelectMultipleField(
-        'Available Equipment', choices=[
+        'Available Equipment (Use command/control to select multiple)',
+        choices=[
             ('1', 'Barbell'),
             ('8', 'Bench'),
             ('3', 'Dumbell'),

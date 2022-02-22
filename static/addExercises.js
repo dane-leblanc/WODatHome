@@ -75,12 +75,23 @@ $("nav").on("click", "a", function () {
   localStorage.clear();
 });
 
-$excOptions.on("click", ".btn-success", function (e) {
+$excOptions.on("click", ".add-btn", function (e) {
+  $(".alert").remove();
   if (excType === "EMOM" && excList.length >= $workoutLength) {
-    return alert("You don't have the time for another exercise");
+    let $timeAlert = $(
+      "<div class='alert alert-danger' role='alert'>You don't have the time for another exercise.</div>"
+    );
+    $timeAlert.appendTo($selectedList);
+    $timeAlert.fadeIn("slow").delay(2500).hide(0);
+    return;
   }
   if (excType === "AMRAP" && $stagesVal * $excPerStageVal == excList.length) {
-    return alert("You cannot add another exercise");
+    let $lengthAlert = $(
+      "<div class='alert alert-danger' role='alert'>You cannot add another exercise.</div>"
+    );
+    $lengthAlert.appendTo($selectedList);
+    $lengthAlert.fadeIn("slow").delay(2500).hide(0);
+    return;
   }
   let exerciseId = +$(e.target).attr("data-id");
   let exerciseName = $(e.target).attr("data-name");

@@ -3,7 +3,7 @@
 {% block content %}
 <h1 id="workout" data-id="{{workout.id}}">{{workout.name}}</h1>
 
-<div class="display-1 text-center mb-2">
+<div class="display-1 text-center mb-2 text-monospace">
 <div id="timer" class="d-inline-block">
 {% if workout.type == EMOM %}
   <span id="seconds" class="pl-2">60</span>

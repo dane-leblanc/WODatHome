@@ -4,7 +4,7 @@
 
 <form method="get">
   {% for field in form if field.widget.input_type != 'hidden' %}
-  <div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
+    <div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
   {% endfor %}
   <div class="form-group">
     <button class="btn btn-primary" type="submit">Filter</button>

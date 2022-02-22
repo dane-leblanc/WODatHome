@@ -67,6 +67,7 @@ def register_user():
         new_user = User.register(username, password)
         db.session.commit()
         session['username'] = new_user.username
+        flash("New Account Created.", "success")
         return redirect(f'/users/{new_user.username}')
 
     return render_template("register.html", form=form)
@@ -86,7 +87,7 @@ def login():
             session['username'] = username
             return redirect(f'/users/{username}')
 
-        flash("Invalid username/password", "danger")
+        flash("Username/Password not found.", "danger")
     return render_template('login.html', form=form)
 
 
@@ -126,6 +127,7 @@ def exercise_details(id):
 @app.route('/users/<username>')
 def user_home(username):
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         user = User.query.filter_by(username=username).one()
@@ -137,6 +139,7 @@ def user_home(username):
 def create_workout(username):
     """Begin creation of new workout."""
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         user = User.query.filter_by(username=username).one()
@@ -157,6 +160,7 @@ def create_workout(username):
 def set_workout_details(username, workout_type, workout_name):
     """Customize workout details and add exercises"""
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         browse_form = SearchExerciseForm(request.args)
@@ -200,6 +204,7 @@ def workout_details(username, id):
     """Show the exercises within this workout and give
     options to delete and execute workout"""
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         workout = Workout.query.get(id)
@@ -233,6 +238,7 @@ def workout_details(username, id):
 @app.route('/users/<username>/workout/<int:id>/execute')
 def execute_workout(username, id):
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         workout = Workout.query.get(id)
@@ -255,6 +261,7 @@ def execute_workout(username, id):
 @app.route('/users/<username>/workout/<int:id>/log', methods=["POST"])
 def log_results(username, id):
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         user = User.query.filter_by(username=username).one()
@@ -284,6 +291,7 @@ def workout_history(username):
 @app.route('/users/<username>/workout/<int:id>/delete', methods=["POST"])
 def delete_workout(username, id):
     if 'username' not in session or username != session['username']:
+        flash("You are not authorized to accessed this page.", "danger")
         return redirect('/')
     else:
         workout = Workout.query.get(id)

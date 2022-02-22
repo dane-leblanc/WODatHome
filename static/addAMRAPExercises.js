@@ -42,11 +42,15 @@ $("#exc-per-stage").change(function () {
 
 $saveBtn.on("click", async function () {
   if ($stagesVal * $excPerStageVal != excList.length) {
-    return alert(
-      `Please add ${
+    $(".alert").remove();
+    let $addAlert = $(
+      `<div class='alert alert-danger' role='alert'>Please add ${
         $stagesVal * $excPerStageVal - excList.length
-      } more exercise(s).`
+      } more exercise(s).</div>`
     );
+    $addAlert.fadeIn("slow").delay(2500).hide(0);
+    $addAlert.appendTo($selectedList);
+    return;
   } else {
     let stages = $stagesVal;
     let stage_time = +$("#stage-time").val();

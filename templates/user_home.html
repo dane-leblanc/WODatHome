@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %} {{user.username}} Home {% endblock
 title %} {% block content %}
 <h1>Welcome back, {{user.username}}!!</h1>
-<a href="/users/{{user.username}}/workout/create" class="btn btn-success">Create New Workout</a>
+<a href="/users/{{user.username}}/workout/create" class="btn btn-primary">Create New Workout</a>
 <h2><u>Your Workouts</u></h2> 
 <ul>
     {% for workout in workouts %}

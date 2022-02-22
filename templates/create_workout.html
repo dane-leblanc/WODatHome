@@ -1,15 +1,79 @@
-{% extends "base.html" %}
-{% block title %}
-Create Workout
-{% endblock title %}
+{% extends "base.html" %} {% block title %} Create Workout {% endblock title %}
 {% block content %}
-<h1>Create New Workout</h1>
+<h1>
+  Create New Workout
+  <button
+    type="button"
+    class="btn btn-info btn-sm"
+    data-toggle="modal"
+    data-target="#type-modal"
+  >
+    info
+  </button>
+</h1>
 <form action="" method="post">
-{{form.hidden_tag()}} {% for field in form if field.widget.input_type != 'hidden'%}
-<div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
-{% endfor %}
-<div class="form-group">
-<button class="btn btn-primary" type="submit">Select Exercises</button>
-</div>
+  {{form.hidden_tag()}} {% for field in form if field.widget.input_type !=
+  'hidden'%}
+  <div class="form-group">{{field.label}} {{field(class_="form-control")}}</div>
+  {% endfor %}
+  <div class="form-group">
+    <button class="btn btn-primary" type="submit">Select Exercises</button>
+  </div>
 </form>
+<div
+  id="type-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h3 class="modal-title">Workout Types</h3>
+        <h4>AMRAP</h4>
+        <p>
+          AMRAP is an acronym for "As Many Rounds as Possible". They involve
+          doing as many repetitions of a series of exercises as possible during
+          a set amount of time. You will need to build multiple stages with the
+          same number of different exercises in each stage. You can also
+          customize the amount of rest you get between stages. Be sure to log
+          how many rounds you were able to get through for each stage (be sure
+          to include how many reps you made it into your final round).
+        </p>
+        <h4>EMOM</h4>
+        <p>
+          EMOM is an acronym for "Every Minute On the Minute". These workouts
+          challenge you to complete an exercise for a certain number of reps in
+          less than 60 seconds. Any remaining will serve as recovery time before
+          you move on to the next exercise. If you select fewer exercises than
+          there are minutes in your workout, the exercises will just cycle back
+          from the beginning until your time is up.
+        </p>
+        <h4>RFT</h4>
+        <p>
+          RFT is an acronym for "Rounds For Time". This workout asks you to
+          complete a specified number of rounds of a set of exercises as quickly
+          as possible. Keep track of how quickly you can get through and try to
+          beat your highest logged time!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+  integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+  integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+  crossorigin="anonymous"
+></script>
+<script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+  crossorigin="anonymous"
+></script>
 {% endblock content %}
