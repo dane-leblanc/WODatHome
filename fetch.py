@@ -248,6 +248,3 @@ def execute_all():
     create_sample_user()
     create_sample_workout()
     build_sample_workout()
-
-
-execute_all()
