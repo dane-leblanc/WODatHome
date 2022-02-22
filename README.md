@@ -43,8 +43,6 @@ Next, type the following into the Terminal
 2. `source venv/bin/activate`
 3. `pip install -r requirements.txt`
 4. `createdb WODatHome_db`
-5. `ipython`
-6. `%run app.py`
-7. `fetch.execute_all()`
+5. `python run fetch.py`
 
 The last step may take up to five minutes to run. Once complete, the database will be filled and a sample user will already be registered. This user has a username of 'Test1' and a password set to whatever you picked in Step 4 of "Setting up your Secret file". This user will already have one stored workout.
