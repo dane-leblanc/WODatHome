@@ -20,10 +20,12 @@ from forms import UserAddForm, LoginForm, SearchExerciseForm, AddWorkoutForm
 import os
 import queries
 
+uri = os.environ.got("DATABASE_URL", "postgresql:///WODatHome_db")
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    os.environ.get('DATABASE_URL', 'postgresql:///WODatHome_db'))
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", "SECRET WORKOUT!!!")
@@ -83,10 +85,7 @@ def login():
         if user:
             session['username'] = username
             return redirect(f'/users/{username}')
-        # else:
-        #     form.username.errors = [
-        #         'Username/Password not found. Please try again.']
-            
+
         flash("Invalid username/password", "danger")
     return render_template('login.html', form=form)
 
