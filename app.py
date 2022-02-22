@@ -18,7 +18,6 @@ from models import (
     Result)
 from forms import UserAddForm, LoginForm, SearchExerciseForm, AddWorkoutForm
 import os
-import fetch
 import queries
 
 
