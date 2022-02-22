@@ -35,7 +35,6 @@ Setting up your Secret file
 1. You will need need an API key to fill the database. Visit the [wger REST API](https://wger.de/en/software/api) website and create an account. When you are signed in you can generate an API KEY.
 2. Create a file named <i>secret.py</i> on the same level as _app.py_.
 3. In _secret.py_ define a variable called **API_SECRET_KEY** and set it equal to your API KEY as a string.
-4. In _secret.py_, also define a variable called **sample_password** and set it equal to a string of your choosing. This will be the password for the sample user (with username - Test1).
 
 Next, type the following into the Terminal
 
@@ -45,4 +44,4 @@ Next, type the following into the Terminal
 4. `createdb WODatHome_db`
 5. `python run fetch.py`
 
-The last step may take up to five minutes to run. Once complete, the database will be filled and a sample user will already be registered. This user has a username of 'Test1' and a password set to whatever you picked in Step 4 of "Setting up your Secret file". This user will already have one stored workout.
+The last step may take up to five minutes to run. Once complete, the database will be filled and a sample user will already be registered. This user has a username of 'Test1' and a password set to 'Password5'. This user will already have one stored workout.
