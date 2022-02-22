@@ -14,14 +14,14 @@ from models import (
     Workout)
 from app import app
 
-# from secret import API_SECRET_KEY, sample_password
+from secret import API_SECRET_KEY
 
-API_KEY = os.environ.get('WGER_API_KEY')
+# API_SECRET_KEY = os.environ.get('WGER_API_KEY')
 
 API_BASE_URL = 'https://wger.de/api/v2/'
 
 headers = {
-    "Authorization": f"Token {API_KEY}",
+    "Authorization": f"Token {API_SECRET_KEY}",
     "Accept": "application/json; indent=4"}
 
 
