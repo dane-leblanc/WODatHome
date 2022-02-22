@@ -1,6 +1,10 @@
 "use strict";
 const $excOptions = $("#exc-options");
-const BASE_URL = "http://127.0.0.1:5000";
+if (window.location.href.indexOf("herokuapp") > -1) {
+  const BASE_URL = "https://wod-at-home.herokuapp.com";
+} else {
+  const BASE_URL = "http://127.0.0.1:5000";
+}
 const $selectedList = $("#selected-exercises");
 const $clearBtn = $("#clear-button");
 let excList = [];
