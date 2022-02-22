@@ -1,5 +1,6 @@
 """Use these functions to fill our database with data from wger API"""
 import requests
+import os
 import re
 from models import (
     db,
@@ -12,12 +13,14 @@ from models import (
     User,
     Workout)
 
-from secret import API_SECRET_KEY, sample_password
+# from secret import API_SECRET_KEY, sample_password
+
+API_KEY = os.environ.get('WGER_API_KEY')
 
 API_BASE_URL = 'https://wger.de/api/v2/'
 
 headers = {
-    "Authorization": f"Token {API_SECRET_KEY}",
+    "Authorization": f"Token {API_KEY}",
     "Accept": "application/json; indent=4"}
 
 
@@ -133,7 +136,7 @@ def fill_exercises_equipment():
 
 
 def create_sample_user():
-    sample_user = User.register(username='Test1', password=sample_password)
+    sample_user = User.register(username='Test1', password="Password5")
     db.session.add(sample_user)
     db.session.commit()
 
