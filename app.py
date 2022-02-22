@@ -20,7 +20,7 @@ from forms import UserAddForm, LoginForm, SearchExerciseForm, AddWorkoutForm
 import os
 import queries
 
-uri = os.environ.got("DATABASE_URL", "postgresql:///WODatHome_db")
+uri = os.environ.get("DATABASE_URL", "postgresql:///WODatHome_db")
 if uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
