@@ -12,6 +12,7 @@ from models import (
     WorkoutExercise,
     User,
     Workout)
+from app import app
 
 # from secret import API_SECRET_KEY, sample_password
 
@@ -248,3 +249,5 @@ def execute_all():
     create_sample_user()
     create_sample_workout()
     build_sample_workout()
+
+execute_all()
