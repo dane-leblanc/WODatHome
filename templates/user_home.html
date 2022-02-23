@@ -1,11 +1,11 @@
 {% extends "base.html" %} {% block title %} {{user.username}} Home {% endblock
 title %} {% block content %}
-<h1>Welcome back, {{user.username}}!!</h1>
-<a href="/users/{{user.username}}/workout/create" class="btn btn-primary">Create New Workout</a>
-<h2><u>Your Workouts</u></h2> 
+<h1 class="mb-4">Welcome back, {{user.username}}!!</h1>
+<a href="/users/{{user.username}}/workout/create" class="btn btn-primary mb-4">Create New Workout</a>
+<h3><u>Your Workouts</u></h2> 
 <ul>
     {% for workout in workouts %}
-    <li class="h3"><a href="/users/{{user.username}}/workout/{{workout.id}}">{{workout.name}}</a></li>
+    <li class="h4"><a href="/users/{{user.username}}/workout/{{workout.id}}">{{workout.name}}</a></li>
     {% endfor %}
 </ul>
 {% endblock content %}

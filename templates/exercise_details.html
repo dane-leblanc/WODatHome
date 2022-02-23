@@ -18,5 +18,8 @@
 {% endfor %}
 </ul>
 {% endif %}
+{% if e_img %}
 <img src="{{e_img.image_url}}" alt="{{e.name}} image" class="img-fluid">
+{% else %}
+{% endif %}
 {% endblock content %}
