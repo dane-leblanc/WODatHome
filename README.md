@@ -8,6 +8,8 @@ Live Link: https://wod-at-home.herokuapp.com/
 
 This app will make use of the [wger REST API](https://wger.de/en/software/api) for access to workout information and images. The local PostgerSQL database has been seeded with data from this API.
 
+Styling was achieved using [Bootstrap](https://getbootstrap.com/) and the [Bootswatch Flatly Template](https://bootswatch.com/).
+
 Wireframes (created by drawIO) can be found [here](https://drive.google.com/file/d/1yAY6GoaadWmxEO3Tsi-nS69-XsKmUaJ0/view?usp=sharing).
 
 ---
@@ -28,7 +30,7 @@ From this window users are able (and encouraged) to log their results. The date 
 
 ---
 
-**Running the App (python3 and PostgreSQL required)**
+**Running the App Locally (python3 and PostgreSQL required)**
 
 Setting up your Secret file
 
