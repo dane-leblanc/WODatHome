@@ -47,11 +47,12 @@
     </div>
   </div>
 </div>
-<script src="https://unpkg.com/jquery"></script>
+{% endblock content %}
+{% block scripts %}
 <script src="https://unpkg.com/axios/dist/axios.js"></script>
-{% block scripts %} {% endblock scripts %}
+{% block subscripts %} {% endblock subscripts %}
 <script src="/static/addExercises.js"></script>
 <script type="text/javascript">
   axios.defaults.headers.common["X-CSRFToken"] = "{{ csrf_token() }}";
 </script>
-{% endblock content %}
+{% endblock scripts %}
