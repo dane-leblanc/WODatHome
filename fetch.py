@@ -14,8 +14,10 @@ from models import (
     Workout)
 from app import app
 
+# ***Use this line for development on local server***
 from secret import API_SECRET_KEY
 
+# ***Use this line for production on Heroku***
 # API_SECRET_KEY = os.environ.get('WGER_API_KEY')
 
 API_BASE_URL = 'https://wger.de/api/v2/'
