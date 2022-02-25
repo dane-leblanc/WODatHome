@@ -46,12 +46,13 @@
     >Start This Workout!</a
   >
   <button
-    class="btn btn-danger"
+    class="btn btn-danger mx-2"
     formmethod="post"
     formaction="/users/{{username}}/workout/{{workout.id}}/delete"
   >
     Delete Workout
   </button>
+  <a href="javascript:history.back()" class="btn btn-warning">Return Home</a>
 </form>
 
 {% endblock content %}
