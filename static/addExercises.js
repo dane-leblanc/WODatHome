@@ -156,7 +156,7 @@ function fillExercises() {
 function setStages() {
   let $stages = $("#stages").val();
   for (let i = 1; i <= +$stages; i++) {
-    $(`<li>`).text(`Stage ${i}`).appendTo($selectedList);
+    $(`<li data-stage="${i}">`).text(`Stage ${i}`).appendTo($selectedList);
     $(`<ul>`).attr("class", `stage-${i}`).appendTo($selectedList);
   }
 }
