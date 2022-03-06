@@ -159,6 +159,8 @@ class ExerciseImage(db.Model):
     """Exercise Image from WGER API"""
     __tablename__ = 'exercise_images'
 
-    id = db.Column(db.Integer, primary_key=True)
-    exercise_id = db.Column(db.Integer, db.ForeignKey('exercises.id'))
+    exercise_id = db.Column(
+        db.Integer,
+        db.ForeignKey('exercises.id'),
+        primary_key=True)
     image_url = db.Column(db.String, nullable=False)

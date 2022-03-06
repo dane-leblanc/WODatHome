@@ -1,8 +1,5 @@
-{% extends "base.html" %}
-{% block title %}
-{{e.name}}
-{% endblock title %}
-{% block content %}
+{% extends "base.html" %} {% block title %} {{e.name}} {% endblock title %} {%
+block content %}
 <h1>{{e.name}}</h1>
 <h3>Description</h3>
 {{e.description | safe}}
@@ -13,13 +10,10 @@
 {% else %}
 <h3>Equipment Used</h3>
 <ul>
-{% for equipment in e.equipment %}
-<li>{{equipment.name}}</li>
-{% endfor %}
+  {% for equipment in e.equipment %}
+  <li>{{equipment.name}}</li>
+  {% endfor %}
 </ul>
-{% endif %}
-{% if e_img %}
-<img src="{{e_img.image_url}}" alt="{{e.name}} image" class="img-fluid">
-{% else %}
-{% endif %}
-{% endblock content %}
+{% endif %} {% if e_img %}
+<img src="{{e_img.image_url}}" alt="{{e.name}} image" class="img-fluid mb-3" />
+{% else %} {% endif %} {% endblock content %}

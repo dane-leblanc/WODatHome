@@ -77,8 +77,8 @@ class UserModelTestCase(TestCase):
             User.register("TestUser", "")
 
         # Register with no Username *****NOT PASSING*****
-        # with self.assertRaises(ValueError) as context:
-        #     User.register("", "TestPass")
+        with self.assertRaises(Exception) as context:
+            User.register(None, "TestPass")
 
         # Register with a username that has already been taken
         u1 = User.register("TestUser", "TestPass1")
