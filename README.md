@@ -58,6 +58,7 @@ Next, type the following into the Terminal
 2. `source venv/bin/activate`
 3. `pip install -r requirements.txt`
 4. `createdb WODatHome_db`
-5. `python3 run fetch.py`
+5. `python3 fetch.py`
+6. `python3 seed_images.py`
 
-The last step may take up to five minutes to run. Once complete, the database will be filled and a sample user will already be registered. This user has a username of 'Test1' and a password set to 'Password5'. This user will already have one stored workout.
+Step 5 may take up to five minutes to run. Once complete, the database will be filled and a sample user will already be registered. This user has a username of 'Test1' and a password set to 'Password5'. This user will already have one stored workout.
