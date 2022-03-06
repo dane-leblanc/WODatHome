@@ -233,6 +233,120 @@ add(361, "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/workouts/
 # plank
 add(238, "https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fstatic.onecms.io%2Fwp-content%2Fuploads%2Fsites%2F35%2F2020%2F02%2Flow-plank-hold.jpg")
 
+# pull up
+add(107, "https://i.gifer.com/BVdS.gif")
+
+# push up
+add(790, "https://media1.giphy.com/media/5t9IcXiBCyw60XPpGu/giphy.gif")
+
+# push ups
+add(195, "https://media1.giphy.com/media/5t9IcXiBCyw60XPpGu/giphy.gif")
+
+# reverse curl
+add(771, "https://9to5strength.com/wp-content/uploads/2016/07/1air70.gif")
+
+# reverse grip bench press
+add(399, "https://i.gifer.com/I0LI.gif")
+
+# romanian deadlift
+add(351, "https://www.strengthlog.com/wp-content/uploads/2022/01/Romanian-deadlift.gif")
+
+# row
+add(801, "https://c.tenor.com/XehF1R8EzM4AAAAC/dumbbell-row.gif")
+
+# russian twists
+add(879, "https://media3.giphy.com/media/cpKD9u3S25xYL8tcbr/200.gif")
+
+# seated triceps press
+add(386, "https://jensinkler.com/wp-content/uploads/2019/06/Dumbbell_Seated_Overhead_Triceps_Extension_out2.gif")
+
+# shoulder fly
+add(802, "https://thumbs.gfycat.com/ChubbyEvilJellyfish-size_restricted.gif")
+
+# shoulder press, barbell
+add(119, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/12/Overhead-press-exercise.gif?fit=600%2C600&ssl=1")
+
+# shoulder press, dumbbell
+add(123, "https://thumbs.gfycat.com/ExcitableOblongFluke-max-1mb.gif")
+
+# shoulder shrug
+add(805, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Dumbbell-Shrug.gif?fit=600%2C600&ssl=1")
+
+# shrug, barbell
+add(150, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Barbell-Shrug.gif?fit=600%2C600&ssl=1")
+
+# shrug, dumbell
+add(151, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Dumbbell-Shrug.gif?fit=600%2C600&ssl=1")
+
+# side crunch
+add(176, "https://images.squarespace-cdn.com/content/v1/5c1cbb93b40b9d8a91db7ce4/1561239690297-7LSGLQ3FW7HJXC811DJD/Side+Crunch.gif")
+
+# dumbbell side bends
+add(278, "https://flabfix.com/wp-content/uploads/2019/05/Standing-Side-Bend.gif")
+
+# side plank
+add(325, "https://i0.wp.com/post.greatist.com/wp-content/uploads/sites/2/2020/06/1.1.SidePlank.gif?w=1155&h=840")
+
+# side raise
+add(319, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/12/Dumbbell-Lateral-Raise.gif?fit=600%2C600&ssl=1")
+
+# single arm preacher curl
+add(205, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/03/Dumbbell-Preacher-Curl.gif?fit=600%2C600&ssl=1")
+
+# snatch
+add(271, "https://thumbs.gfycat.com/VeneratedHomelyHorsechestnutleafminer-size_restricted.gif")
+
+# squats
+add(111, "https://media3.giphy.com/media/13v55Ya4uWsXS/giphy.gif")
+
+#squat thrust
+add(795, "https://flabfix.com/wp-content/uploads/2019/05/Squat-Thrust.gif")
+
+# standing bicep curl
+add(768, "https://thumbs.gfycat.com/FelineSaltyBat-size_restricted.gif")
+
+# stiff-legged deadlift
+add(209, "https://i0.wp.com/www.strengthlog.com/wp-content/uploads/2020/11/Romanian-deadlift.gif?resize=600%2C600&ssl=1")
+
+# sumo squat
+add(570, "https://c.tenor.com/jAjshaoXrewAAAAC/sumo-squat-exercise.gif")
+
+# superman
+add(330, "https://flabfix.com/wp-content/uploads/2019/05/Superman.gif")
+
+# thruster
+add(396, "https://c.tenor.com/QeqjZPJzVc0AAAAC/thrusters-workout.gif")
+
+# tricep dumbbell kickback
+add(279, "https://global-uploads.webflow.com/5d1d0d3f53ced35a29dbe169/5efbd9378b9d8c80c6d6280d_4blYQRyWZrSKUwGX8mNVSqz2zspdJf8IbnCxqLKZp1RMF-8DVSi-wjtuWAMOemZMvFrSGJWlAK7y6PgE3z1fAw_FA1obpVnXBL2O2zGSrEAXCyq2v9IOEHgUSv9xhcbJmFFqchtv.gif")
+
+# turkish getup
+add(318, "https://c.tenor.com/Egbq7vRCZ40AAAAC/perfect-form-turkish-get-up.gif")
+
+# upright row, sz-bar
+add(127, "https://s35247.pcdn.co/wp-content/uploads/2021/07/2-2.gif")
+
+# upright row, dumbbells
+add(311, "https://hips.hearstapps.com/ame-prod-menshealth-assets.s3.amazonaws.com/main/assets/uprightrow.gif?resize=480:*")
+
+# wall handstand
+add(359, "https://images.ctfassets.net/5615tdzw3m8i/13HAjS5WsPi9xclNMfuxr7/627fc0e8bb607f585dc7584e8b185eb0/07.gif")
+
+# wall pushup
+add(203, "https://www.lasso.io/wp-content/uploads/WALL-PUSHUPS.gif")
+
+# wall slides
+add(548, "https://assets.myworkouts.io/exercises-media/qnFwS8fxYmCK2QuWB/wall_slide_female_v15_gif_capoff.gif")
+
+# wall squat
+add(387, "https://media0.giphy.com/media/NaKGjtR1bMgVTH5Rds/giphy.gif")
+
+# weighted butterfly stretch
+add(886, "https://i.ytimg.com/vi/x4lGE575wEQ/maxresdefault.jpg")
+
+# weighted step
+add(320, "https://thumbs.gfycat.com/AgreeablePinkCats-size_restricted.gif")
+
 db.session.add_all(images)
 db.session.commit()
 
