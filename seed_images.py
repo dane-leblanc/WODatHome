@@ -1,6 +1,5 @@
 from models import db, ExerciseImage
 from app import app
-import fetch
 
 ExerciseImage.__table__.drop(db.engine)
 ExerciseImage.__table__.create(db.engine)
@@ -349,5 +348,3 @@ add(320, "https://thumbs.gfycat.com/AgreeablePinkCats-size_restricted.gif")
 
 db.session.add_all(images)
 db.session.commit()
-
-# fetch.fill_images()
