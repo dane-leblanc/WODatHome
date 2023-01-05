@@ -2,9 +2,7 @@
 
 My first full-stack capstone project for the Springboard Software Engineering Career Track.
 
-This app is now [deployed on heroku](https://wod-at-home.herokuapp.com/).
-
-Live Link: https://wod-at-home.herokuapp.com/
+The app is no longer hosted by Heroku so is not deployed publicly. 
 
 Wireframes (created by drawIO) can be found [here](https://drive.google.com/file/d/1yAY6GoaadWmxEO3Tsi-nS69-XsKmUaJ0/view?usp=sharing).
 
